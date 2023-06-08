@@ -11,6 +11,12 @@ const ItemsSchema = new mongoose.Schema({
     type: String,
     maxLength: 200,
   },
+  scheduleTime: {
+    type: Date,
+    default: Date.now,
+  },
+}, {
+  timestamps: true,
 });
 
 const Item = mongoose.model('Item', ItemsSchema);

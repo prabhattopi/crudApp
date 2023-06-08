@@ -1,53 +1,87 @@
-import { useEffect, useState } from 'react';
-import api from '../api';
-import { useNavigate, useParams } from 'react-router-dom';
-import {fetchDataSingle } from '../httpRequest';
+import { useEffect, useState } from "react";
+import api from "../api";
+import { useNavigate, useParams } from "react-router-dom";
+import { fetchDataSingle } from "../httpRequest";
 
-const PutData = ({items,setItems}) => {
-   const param=useParams()
-   const itemId=param.id
-   console.log(itemId)
-  const [user, setUser] = useState('');
-  const [description, setDescription] = useState('');
-  const [single,setSingle]=useState({})
-  const navigate=useNavigate()
+const PutData = ({ items, setItems }) => {
+  const param = useParams();
+  const itemId = param.id;
+  const [user, setUser] = useState("");
+  const [description, setDescription] = useState("");
+  const [single, setSingle] = useState({});
+  const navigate = useNavigate();
 
-  useEffect(()=>{
+  useEffect(() => {
     fetchDataSingle(itemId)
-    .then((data) =>{console.log(data);setSingle(data)})
-    .catch((error) => console.error("Failed to fetch items:", error));
-}, []);
+      .then((data) => {
+        console.log(data);
+        setSingle(data);
+      })
+      .catch((error) => console.error("Failed to fetch items:", error));
+
+    // Cleanup function to clear previous state
+    return () => {
+      setUser("");
+      setDescription("");
+    };
+  }, [itemId]);
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
       await api.put(`/items/${itemId}`, { user, description });
-      const data=items.map(e=>e._id===itemId?{...e,user,description}:e)
+      const data = items.map((e) =>
+        e._id === itemId ? { ...e, user, description } : e
+      );
       console.log(data);
       setItems(data);
       // Perform any additional actions after successful update
     } catch (error) {
-      console.error('Failed to update item:', error)
+      console.error("Failed to update item:", error);
     }
     navigate("/");
   };
-
   return (
-    <div>
-      <h3>Update Item</h3>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>User: {single?.user}</label>
-          <input type="text" value={user} onChange={(e) => setUser(e.target.value)} />
-        </div>
-        <div>
-          <label>Description: {single?.description}</label>
-          <textarea value={description} onChange={(e) => setDescription(e.target.value)}></textarea>
-        </div>
-        <button type="submit">Update</button>
-      </form>
+    <div className="flex justify-center items-center h-full">
+      <div className="max-w-md w-full px-6 py-8 bg-white shadow-md rounded-lg">
+        <h3 className="text-xl font-bold mb-4">Update Item</h3>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div>
+            <label className="block mb-2 text-sm font-medium">
+              User: {single?.user}
+            </label>
+            <input
+              type="text"
+              value={user}
+              onChange={(e) => setUser(e.target.value)}
+              className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
+            />
+          </div>
+          <div>
+            <label className="block mb-2 text-sm font-medium">
+              Description: {single?.description}
+            </label>
+            <textarea
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
+            ></textarea>
+          </div>
+          <button
+            type="submit"
+            className={`w-full px-4 py-2 text-sm font-medium rounded hover:bg-blue-600 ${
+              !user || !description
+                ? "text-gray-500 bg-gray-300 cursor-not-allowed"
+                : "text-white bg-blue-500"
+            }`}
+            disabled={!user || !description}
+          >
+            Update
+          </button>
+        </form>
+      </div>
     </div>
   );
 };
 
-
-export default PutData
+export default PutData;
