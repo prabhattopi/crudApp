@@ -2,7 +2,7 @@
 import { useState, memo } from 'react';
 import { AiOutlineClockCircle } from 'react-icons/ai';
 import api from '../api';
-
+import moment from 'moment';
 const PostData = () => {
   const [user, setUser] = useState('');
   const [description, setDescription] = useState('');
@@ -13,7 +13,27 @@ const PostData = () => {
     event.preventDefault();
 
     try {
-      await api.post('/items', { user, description, scheduleTime });
+
+
+const timeString = scheduleTime; // The time in HH:mm format
+
+// Get the current date in IST
+const currentDateIST = moment().utcOffset('+05:30').format('YYYY-MM-DD');
+
+// Concatenate the current date in IST and the time string
+const timestampStringIST = `${currentDateIST} ${timeString}`;
+
+// Create a Moment object from the IST timestamp string
+const timestampIST = moment(timestampStringIST, 'YYYY-MM-DD HH:mm').toDate();
+
+console.log(timestampIST); // The IST timestamp in Date object format
+const date = new Date(timestampIST);
+
+const formattedDate = date.toISOString();
+
+console.log(formattedDate); // '2023-06-08T10:09:41.784Z'
+    scheduleTime? await api.post('/items', { user, description, scheduleTime:formattedDate }):await api.post('/items', { user, description})
+     
       // Clear the form fields after successful submission
       setUser('');
       setDescription('');
@@ -34,7 +54,7 @@ const PostData = () => {
   const handleModalSubmit = () => {
     setShowModal(false);
   };
-
+  
   return (
     <div className="flex items-center justify-center my-5">
       <div className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5 p-4 bg-white shadow-md rounded-lg">
