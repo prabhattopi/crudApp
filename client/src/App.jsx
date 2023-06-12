@@ -7,6 +7,7 @@ import Home from "./components/Home";
 import Navbar from "./components/Navbar";
 import Login from "./components/Login";
 import Signup from "./components/Signup";
+import Sidebar from "./components/Sidebar";
 function App() {
   const [items, setItems] = useState([]);
 
@@ -19,6 +20,7 @@ function App() {
   return (
     <>
     <Navbar/>
+    {/* <Sidebar/> */}
     <Routes>
       <Route path="/" element={<Home items={items} setItems={setItems}/>} />
       <Route path="/post" element={<PostData/>} />
