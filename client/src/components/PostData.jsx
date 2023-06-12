@@ -50,6 +50,7 @@ console.log(formattedDate); // '2023-06-08T10:09:41.784Z'
 
   const closeModal = () => {
     setShowModal(false);
+    setScheduleTime('');
   };
   const handleModalSubmit = () => {
     setShowModal(false);

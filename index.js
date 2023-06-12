@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 require('dotenv').config();
 const cors=require('cors');
 const itemRoutes = require('./src/routes/itemRoutes');
+const userRoutes = require('./src/routes/userRoutes');
 
 const app = express();
 app.use(express.json());
@@ -16,6 +17,7 @@ mongoose
   .catch((err) => console.log(err));
 
 app.use('/api/items', itemRoutes);
+app.use('/api/users', userRoutes );
 
 app.listen(3000, () => {
   console.log('Server is listening on port 3000');

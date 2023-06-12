@@ -5,7 +5,6 @@ const fetchData = async () => {
   try {
     const response = await api.get('/items');
     const currentTimestamp = moment(); // Get the current time
-    console.log(response.data)
     
     const timeData = response.data.filter(item => {
       const scheduleTime = moment(item.scheduleTime); // Convert the scheduleTime to a Moment.js object
