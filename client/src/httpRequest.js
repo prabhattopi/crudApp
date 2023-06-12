@@ -4,32 +4,17 @@ import api from './api';
 const fetchData = async () => {
   try {
     const response = await api.get('/items');
-    const currentTimestamp = moment().format('YYYY-MM-DD HH:mm:ss'); // Get the current time
+    const currentTimestamp = moment(); // Get the current time
     console.log(response.data)
+    
     const timeData = response.data.filter(item => {
-      const scheduleTime =item.scheduleTime;
-
-// Convert the scheduleTime to IST (Indian Standard Time)
-const scheduleTimeIST = moment(scheduleTime).utcOffset('+05:30');
-
-// Calculate the number of seconds since the Unix epoch for the scheduleTime in IST
-let secondsSinceEpochIST = scheduleTimeIST.startOf('second').unix();
- secondsSinceEpochIST = moment.unix(secondsSinceEpochIST).format('YYYY-MM-DD HH:mm:ss');
-const [Futurehours, Futureminutes] = moment(secondsSinceEpochIST, 'YYYY-MM-DD HH:mm:ss').format('HH:mm').split(':');
-
-// Calculate the total seconds
-const totalSecondsFuture = Futurehours * 3600 + Futureminutes * 60;
-
-console.log(totalSecondsFuture); 
-const [Currenthours, Currentminutes] = moment(currentTimestamp, 'YYYY-MM-DD HH:mm:ss').format('HH:mm').split(':');
-
-// Calculate the total seconds
-const totalSecondscurrent = Currenthours * 3600 + Currentminutes * 60;
-
-console.log(totalSecondscurrent); 
-return totalSecondsFuture<=totalSecondscurrent
+      const scheduleTime = moment(item.scheduleTime); // Convert the scheduleTime to a Moment.js object
+      
+      // Compare year, month, day, hour, and minute of the two timestamps
+      return scheduleTime.isSameOrBefore(currentTimestamp, 'minute');
     });
-    console.log(timeData)
+    
+    console.log(timeData);
     return timeData;
   } catch (error) {
     console.error('Failed to fetch data:', error);
