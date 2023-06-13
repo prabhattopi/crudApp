@@ -2,6 +2,7 @@
 import { useState, memo } from 'react';
 import { AiOutlineClockCircle } from 'react-icons/ai';
 import api from '../api';
+import { toast } from 'react-toastify';
 import moment from 'moment';
 const PostData = () => {
   const [user, setUser] = useState('');
@@ -32,15 +33,39 @@ const date = new Date(timestampIST);
 const formattedDate = date.toISOString();
 
 console.log(formattedDate); // '2023-06-08T10:09:41.784Z'
-    scheduleTime? await api.post('/items', { user, description, scheduleTime:formattedDate }):await api.post('/items', { user, description})
+    const response=scheduleTime? await api.post('/items', { user, description, scheduleTime:formattedDate }):await api.post('/items', { user, description})
      
       // Clear the form fields after successful submission
-      setUser('');
-      setDescription('');
-      setScheduleTime('');
-      // Perform any additional actions after successful submission
+      if (response.status === 201) {
+        // Show a success toast notification with a custom message from the backend
+        toast.success(response.data||'Post created successfully', {
+          position: toast.POSITION.TOP_RIGHT, // Change the position of the toast
+          autoClose: 3000, // Auto-close the toast after 3000 milliseconds (3 seconds)
+          hideProgressBar:false, // Hide the progress bar
+        });
+        // Clear the form fields after successful submission
+        setUser('');
+        setDescription('');
+        setScheduleTime('');
+        // Perform any additional actions after successful submission
+      } else {
+        // Show an error toast notification with a custom message from the backend
+        toast.error(response.data||'Failed to create Post', {
+          position: toast.POSITION.TOP_RIGHT, // Change the position of the toast
+          autoClose: 3000, // Auto-close the toast after 3000 milliseconds (3 seconds)
+          hideProgressBar:false, // Hide the progress bar
+        });
+      }
+  
+      // ...
     } catch (error) {
       console.error('Failed to create item:', error);
+      // Show an error toast notification for any other errors
+      toast.error(response.data||'Failed to create Post', {
+        position: toast.POSITION.TOP_RIGHT, // Change the position of the toast
+        autoClose: 3000, // Auto-close the toast after 3000 milliseconds (3 seconds)
+        hideProgressBar:false, // Hide the progress bar
+      });
     }
   };
 
