@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import api from "../api";
 import { useNavigate, useParams } from "react-router-dom";
 import { fetchDataSingle } from "../httpRequest";
+import { toast } from "react-toastify";
 
 const PutData = ({ items, setItems }) => {
   const param = useParams();
@@ -29,17 +30,38 @@ const PutData = ({ items, setItems }) => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      await api.put(`/items/${itemId}`, { user, description });
+      const response=await api.put(`/items/${itemId}`, { user, description });
       const data = items.map((e) =>
         e._id === itemId ? { ...e, user, description } : e
       );
       console.log(data);
-      setItems(data);
+      if(response.status=="200"){
+        toast.success(response.data||'Item updated successfully', {
+          position: toast.POSITION.TOP_RIGHT, // Change the position of the toast
+          autoClose: 3000, // Auto-close the toast after 3000 milliseconds (3 seconds)
+          hideProgressBar:false, // Hide the progress bar
+        });
+        setItems(data);
+        navigate("/");
+      }
+      else{
+        toast.error(response.data||'An error occured', {
+          position: toast.POSITION.TOP_RIGHT, // Change the position of the toast
+          autoClose: 3000, // Auto-close the toast after 3000 milliseconds (3 seconds)
+          hideProgressBar:false, // Hide the progress bar
+        });
+      }
+   
       // Perform any additional actions after successful update
     } catch (error) {
+      toast.error(error.message, {
+        position: toast.POSITION.TOP_RIGHT, // Change the position of the toast
+        autoClose: 3000, // Auto-close the toast after 3000 milliseconds (3 seconds)
+        hideProgressBar:false, // Hide the progress bar
+      });
       console.error("Failed to update item:", error);
     }
-    navigate("/");
+    
   };
   return (
     <div className="flex justify-center items-center h-full">

@@ -21,7 +21,7 @@ function App() {
     <Navbar/>
     <Routes>
       <Route path="/" element={<Home items={items} setItems={setItems}/>} />
-      <Route path="/post" element={<PostData/>} />
+      <Route path="/post" element={<PostData items={items} setItems={setItems}/>} />
       <Route path="/login" element={<Login/>} />
       <Route path="/signup" element={<Signup/>} />
       <Route path="/:id" element={<PutData items={items} setItems={setItems}/>} />

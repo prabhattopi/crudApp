@@ -4,12 +4,14 @@ import { AiOutlineClockCircle } from 'react-icons/ai';
 import api from '../api';
 import { toast } from 'react-toastify';
 import moment from 'moment';
-const PostData = () => {
+import { useNavigate } from 'react-router-dom';
+import { fetchData } from '../httpRequest';
+const PostData = ({items,setItems}) => {
   const [user, setUser] = useState('');
   const [description, setDescription] = useState('');
   const [showModal, setShowModal] = useState(false); // State for showing/hiding the modal
   const [scheduleTime, setScheduleTime] = useState(''); // State for the scheduled time
-
+  const navigate=useNavigate()
   const handleSubmit = async (event) => {
     event.preventDefault();
 
@@ -44,9 +46,12 @@ console.log(formattedDate); // '2023-06-08T10:09:41.784Z'
           hideProgressBar:false, // Hide the progress bar
         });
         // Clear the form fields after successful submission
+        await fetchData().then((data)=>setItems(data))
         setUser('');
         setDescription('');
         setScheduleTime('');
+     
+        navigate("/");
         // Perform any additional actions after successful submission
       } else {
         // Show an error toast notification with a custom message from the backend

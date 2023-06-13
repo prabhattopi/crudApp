@@ -1,6 +1,7 @@
 import { memo } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import api from "../api";
+import { toast } from "react-toastify";
 
 const GetData = ({ items, setItems }) => {
   const navigate = useNavigate();
@@ -11,10 +12,30 @@ const GetData = ({ items, setItems }) => {
 
   const handleDelete = async (id) => {
     try {
-      await api.delete(`/items/${id}`);
+      const response=await api.delete(`/items/${id}`);
       const data = items.filter((item) => item._id !== id);
+      if (response.status === 200) {
+      toast.success(response.data||'Post created successfully', {
+        position: toast.POSITION.TOP_RIGHT, // Change the position of the toast
+        autoClose: 3000, // Auto-close the toast after 3000 milliseconds (3 seconds)
+        hideProgressBar:false, // Hide the progress bar
+      });
       setItems(data);
+    }
+    else{
+      toast.error(response.data||'an error occured', {
+        position: toast.POSITION.TOP_RIGHT, // Change the position of the toast
+        autoClose: 3000, // Auto-close the toast after 3000 milliseconds (3 seconds)
+        hideProgressBar:false, // Hide the progress bar
+      });
+    }
+     
     } catch (err) {
+      toast.error(err.message, {
+        position: toast.POSITION.TOP_RIGHT, // Change the position of the toast
+        autoClose: 3000, // Auto-close the toast after 3000 milliseconds (3 seconds)
+        hideProgressBar:false, // Hide the progress bar
+      });
       console.log(err);
     }
   };
