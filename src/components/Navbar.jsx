@@ -14,7 +14,7 @@ const Navbar = () => {
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center">
             <div className="flex-shrink-0">
-              <span className="text-white">IT Wallo</span>
+              <span className="text-white">IT Walle</span>
             </div>
           </div>
           <div className="hidden md:block">
