@@ -30,6 +30,15 @@ const PutData = ({ items, setItems }) => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
+      const prevUser = items.find((e) =>
+      e._id === itemId 
+    );
+      if(!user){
+        setUser(prevUser.user)
+      }
+      if(!description){
+        setUser(prevUser.description)
+      }
       const response=await api.put(`/items/${itemId}`, { user, description });
       const data = items.map((e) =>
         e._id === itemId ? { ...e, user, description } : e
@@ -92,11 +101,11 @@ const PutData = ({ items, setItems }) => {
           <button
             type="submit"
             className={`w-full px-4 py-2 text-sm font-medium rounded hover:bg-blue-600 ${
-              !user || !description
+              !user && !description
                 ? "text-gray-500 bg-gray-300 cursor-not-allowed"
                 : "text-white bg-blue-500"
             }`}
-            disabled={!user || !description}
+            disabled={!user && !description}
           >
             Update
           </button>
