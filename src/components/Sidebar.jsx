@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 const Sidebar = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedOption, setSelectedOption] = useState("");
-  const [sidebarHeight, setSidebarHeight] = useState("calc(100vh - 64px)");
+  const [sidebarHeight, setSidebarHeight] = useState("calc(100vh - 62px)");
 
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);
@@ -18,7 +18,7 @@ const Sidebar = () => {
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth >= 768) {
-        setSidebarHeight("calc(100vh - 64px)");
+        setSidebarHeight("calc(100vh - 62px)");
       } else {
         setSidebarHeight("auto");
       }
