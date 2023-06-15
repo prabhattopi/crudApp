@@ -1,9 +1,10 @@
-import { memo } from "react";
+import { memo, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import api from "../api";
 import { toast } from "react-toastify";
 
 const GetData = ({ items, setItems }) => {
+  const [loading,setLoading]=useState(false)
   const navigate = useNavigate();
 
   const handleRedirect = (id) => {
@@ -12,6 +13,7 @@ const GetData = ({ items, setItems }) => {
 
   const handleDelete = async (id) => {
     try {
+      setLoading(true)
       const response=await api.delete(`/items/${id}`);
       const data = items.filter((item) => item._id !== id);
       if (response.status === 200) {
@@ -21,6 +23,7 @@ const GetData = ({ items, setItems }) => {
         hideProgressBar:false, // Hide the progress bar
       });
       setItems(data);
+      setLoading(false)
     }
     else{
       toast.error(response.data||'an error occured', {
@@ -60,8 +63,9 @@ const GetData = ({ items, setItems }) => {
                   Edit
                 </button>
                 <button
-                  className="px-2 py-1 text-sm font-medium text-white bg-red-500 rounded hover:bg-red-600"
+                  className={`px-2 py-1 text-sm font-medium text-white bg-red-500 ${loading ? "cursor-not-allowed": "cursor"} rounded hover:bg-red-600`}
                   onClick={() => handleDelete(item._id)}
+                  disabled={loading}
                 >
                   Delete
                 </button>
