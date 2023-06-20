@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
-
 const Sidebar = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedOption, setSelectedOption] = useState("");
-  const [sidebarHeight, setSidebarHeight] = useState("calc(100vh - 62px)");
+  const [sidebarHeight, setSidebarHeight] = useState("calc(100vh -118px)");
 
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);
@@ -18,7 +17,7 @@ const Sidebar = () => {
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth >= 768) {
-        setSidebarHeight("calc(100vh - 62px)");
+        setSidebarHeight("calc(100vh - 118px)");
       } else {
         setSidebarHeight("auto");
       }
@@ -35,51 +34,59 @@ const Sidebar = () => {
 
   return (
     <div
-      className="flex flex-col w-full sm:w-64 bg-gray-200"
-      style={{ height: sidebarHeight }}
+    className="flex flex-col w-full sm:w-64 bg-gray-200 overflow-hidden"
+    style={{ height: sidebarHeight }}
+  >
+    <div
+      className="p-2 overflow-y-auto"
+      style={{
+        scrollbarWidth: "thin",
+        scrollbarColor: "gray dark-gray",
+      }}
     >
-      <div className="p-4">
-        <input
-          type="text"
-          placeholder="Search..."
-          className="w-full p-2 border border-gray-300 rounded mb-4 focus:outline-none"
-          value={searchTerm}
-          onChange={handleSearchChange}
-        />
-        <select
-          className="w-full p-2 border border-gray-300 rounded mb-4 focus:outline-none"
-          value={selectedOption}
-          onChange={handleOptionChange}
-        >
-          <option value="">All</option>
-          <option value="option1">Option 1</option>
-          <option value="option2">Option 2</option>
-          <option value="option3">Option 3</option>
-        </select>
+      <select
+        className="md:hidden sm:hidden w-full p-2 border border-gray-300 rounded mb-4 focus:outline-none"
+        value={selectedOption}
+        onChange={handleOptionChange}
+      >
+        {/* options */}
+      </select>
         <div className="flex flex-col space-y-4">
           {/* Hidden on small and medium screens */}
           <div className="hidden md:block bg-white p-4 rounded shadow">
-            <h3>Div 1</h3>
+            <h3>Software Developer</h3>
             {/* Content for Div 1 */}
           </div>
           <div className="hidden md:block bg-white p-4 rounded shadow">
-            <h3>Div 2</h3>
+            <h3>Front-End Developer</h3>
             {/* Content for Div 2 */}
           </div>
           <div className="hidden md:block bg-white p-4 rounded shadow">
-            <h3>Div 3</h3>
+            <h3>Backend Developer</h3>
             {/* Content for Div 3 */}
           </div>
           <div className="hidden md:block bg-white p-4 rounded shadow">
-            <h3>Div 4</h3>
+            <h3>Mern Developer</h3>
             {/* Content for Div 4 */}
           </div>
           <div className="hidden md:block bg-white p-4 rounded shadow">
-            <h3>Div 5</h3>
+            <h3>Android Developer</h3>
             {/* Content for Div 5 */}
           </div>
           <div className="hidden md:block bg-white p-4 rounded shadow">
-            <h3>Div 5</h3>
+            <h3>Android Developer</h3>
+            {/* Content for Div 5 */}
+          </div>
+          <div className="hidden md:block bg-white p-4 rounded shadow">
+            <h3>Android Developer</h3>
+            {/* Content for Div 5 */}
+          </div>
+          <div className="hidden md:block bg-white p-4 rounded shadow">
+            <h3>Android Developer</h3>
+            {/* Content for Div 5 */}
+          </div>
+          <div className="hidden md:block bg-white p-4 rounded shadow">
+            <h3>Qa Enginner</h3>
             {/* Content for Div 5 */}
           </div>
           {/* Add more div elements as needed */}

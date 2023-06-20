@@ -3,15 +3,26 @@ import { Link } from "react-router-dom";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
+  const handleSearchInputChange = (event) => {
+    setSearchQuery(event.target.value);
+  };
+
+  const handleSearchSubmit = (event) => {
+    event.preventDefault();
+    // Perform search action using the searchQuery value
+    console.log("Search query:", searchQuery);
+  };
+
   return (
     <nav className="bg-gray-800 sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between" style={{height:"62px"}}>
+        <div className="flex items-center justify-between" style={{ height: "62px" }}>
           <div className="flex items-center">
             <div className="flex-shrink-0">
               <span className="text-white">IT Walle</span>
@@ -54,12 +65,7 @@ const Navbar = () => {
                   viewBox="0 0 24 24"
                   stroke="currentColor"
                 >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M4 6h16M4 12h16M4 18h16"
-                  />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
                 </svg>
               ) : (
                 <svg
@@ -69,12 +75,7 @@ const Navbar = () => {
                   viewBox="0 0 24 24"
                   stroke="currentColor"
                 >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M6 18L18 6M6 6l12 12"
-                  />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
                 </svg>
               )}
             </button>
@@ -92,10 +93,10 @@ const Navbar = () => {
               Home
             </Link>
             <Link
-              to="/signup"
+              to="/create"
               className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
             >
-              Sign Up
+              Create
             </Link>
             <Link
               to="/login"
@@ -106,6 +107,21 @@ const Navbar = () => {
           </div>
         </div>
       )}
+
+      <div className="flex justify-center bg-gray-700 py-2">
+        <form onSubmit={handleSearchSubmit}>
+          <input
+            type="text"
+            value={searchQuery}
+            onChange={handleSearchInputChange}
+            className="px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white"
+            placeholder="Search..."
+          />
+          <button type="submit" className="ml-2 px-4 py-2 bg-gray-900 text-white rounded-md">
+            Search
+          </button>
+        </form>
+      </div>
     </nav>
   );
 };
