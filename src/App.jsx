@@ -18,7 +18,6 @@ function App() {
 
   return (
     <>
-    <Navbar/>
     <Routes>
       <Route path="/" element={<Home items={items} setItems={setItems}/>} />
       <Route path="/post" element={<PostData items={items} setItems={setItems}/>} />
