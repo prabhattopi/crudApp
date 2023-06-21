@@ -1,5 +1,5 @@
 # IT Walle
-It is record-book for IT peopel through you can find any IT Professional Details their social links with authentication.
+It is a record-book for IT peopel through you can find any IT Professional Details and their social links with authentication.
 
 ## Acknowledgements
 
