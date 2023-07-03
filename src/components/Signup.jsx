@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import {AuthContext} from "../context/auth/auth"
 import { Link } from "react-router-dom";
 import "./Signup.css"; // Import the CSS file for Signup component styles
 
@@ -9,6 +10,7 @@ const Signup = () => {
   const [address, setAddress] = useState("");
   const [occupation, setOccupation] = useState("");
   const [selectedOption, setSelectedOption] = useState("");
+  const {signup}= useContext(AuthContext)
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
@@ -34,9 +36,10 @@ const Signup = () => {
     setSelectedOption(e.target.value);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Perform signup logic here
+    await signup({email,password})
+    
   };
 
   return (
@@ -70,7 +73,7 @@ const Signup = () => {
               required
             />
           </div>
-          <div className="mb-4">
+          {/* <div className="mb-4">
             <label htmlFor="name" className="block font-medium mb-2">
               Name
             </label>
@@ -124,7 +127,7 @@ const Signup = () => {
               <option value="option2">Option 2</option>
               <option value="option3">Option 3</option>
             </select>
-          </div>
+          </div> */}
           <p className="text-sm text-gray-500 mb-4 animated-text">
             Already have an account?{" "}
             <Link to="/login" className="text-blue-500">

@@ -1,11 +1,12 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../context/auth/auth";
 import "./Login.css"; // Import the CSS file for Login component styles
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
+  const {login}= useContext(AuthContext)
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
   };
@@ -14,9 +15,9 @@ const Login = () => {
     setPassword(e.target.value);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Perform login logic here
+    await login({email,password})
   };
 
   return (
