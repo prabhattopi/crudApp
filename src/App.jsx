@@ -7,6 +7,8 @@ import Home from "./components/Home";
 import Navbar from "./components/Navbar";
 import Login from "./components/Login";
 import Signup from "./components/Signup";
+import PrivateRoutes from "./routes/PrivateRoutes";
+import PublicRoutes from "./routes/PublicRoutes";
 function App() {
   const [items, setItems] = useState([]);
 
@@ -19,11 +21,17 @@ function App() {
   return (
     <>
     <Routes>
-      <Route path="/" element={<Home items={items} setItems={setItems}/>} />
-      <Route path="/post" element={<PostData items={items} setItems={setItems}/>} />
-      <Route path="/login" element={<Login/>} />
-      <Route path="/signup" element={<Signup/>} />
-      <Route path="/:id" element={<PutData items={items} setItems={setItems}/>} />
+  
+      <Route path="/" element={<PrivateRoutes><Home items={items} setItems={setItems}/></PrivateRoutes>} />
+      <Route path="/post" element={<PrivateRoutes><PostData items={items} setItems={setItems}/></PrivateRoutes>} />
+      <Route path="/:id" element={<PrivateRoutes><PutData items={items} setItems={setItems}/></PrivateRoutes>} />
+   
+    
+    <Route path="/login" element={<PublicRoutes><Login/></PublicRoutes>
+      } />
+      <Route path="/signup" element={<PublicRoutes><Signup/></PublicRoutes>} />
+   
+    
     </Routes>
     </>
   );
