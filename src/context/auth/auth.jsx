@@ -73,11 +73,16 @@ const AuthProvider = ({ children }) => {
             console.error(error);
         }
     }
+    const logout=()=>{
+        localStorage.removeItem('it_wale_token')
+        setUser(null)
+    }
       const value={
         user,
         isLoading,
         signup, 
-        login
+        login,
+        logout
     }
     return (
         <AuthContext.Provider value={value}>
