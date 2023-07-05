@@ -67,7 +67,7 @@ const AuthProvider = ({ children }) => {
             console.log(response)
             setUser(response.data.user.email)
             // Handle the response here, such as updating state or displaying a messag
-            navigate("/")
+            // navigate("/")
         } catch (error) {
             // Handle any errors that occurred during the API call
             console.error(error);
