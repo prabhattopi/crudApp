@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../context/auth/auth";
 import "./Login.css"; // Import the CSS file for Login component styles
-
+import Logo from "../assets/Logo.png"
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -21,7 +21,8 @@ const Login = () => {
   };
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-gray-100">
+    <div className="fixed inset-0 flex flex-col items-center justify-center bg-gray-100">
+        <img src={Logo} alt="Logo"/>
       <div className="bg-white shadow-md rounded-md p-8 max-w-md w-full">
         <h2 className="text-2xl font-bold mb-6">Login</h2>
         <form onSubmit={handleSubmit}>
