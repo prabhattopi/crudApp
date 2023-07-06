@@ -43,7 +43,7 @@ const Signup = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 flex flex-col gap-8 items-center justify-center">
+    <div className="fixed inset-0 flex flex-col items-center justify-center bg-gray-100">
         <img src={Logo} alt="Logo"/>
       <div className="bg-white shadow-md rounded-md p-8 max-w-md w-full">
         <h2 className="text-2xl font-bold mb-6">Signup</h2>
