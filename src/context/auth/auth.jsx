@@ -1,7 +1,7 @@
 import React, { createContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import api from '../../api'
-
+import { toast } from 'react-toastify';
 export const AuthContext = createContext()
 const AuthProvider = ({ children }) => {
     const [user,setUser]=useState(null);
@@ -51,11 +51,19 @@ const AuthProvider = ({ children }) => {
             console.log(data)
             const response = await api.post("/users/register", data);
             // Handle the response here, such as updating state or displaying a message
-            
+            toast.success(response.data.message||'Login in successfully', {
+                position: toast.POSITION.TOP_RIGHT, // Change the position of the toast
+                autoClose: 3000, // Auto-close the toast after 3000 milliseconds (3 seconds)
+                hideProgressBar:false, // Hide the progress bar
+              });
             navigate("/login")
         } catch (error) {
             // Handle any errors that occurred during the API call
-            console.error(error);
+            toast.error(error.response.data.message||'Worng credential', {
+                position: toast.POSITION.TOP_RIGHT, // Change the position of the toast
+                autoClose: 3000, // Auto-close the toast after 3000 milliseconds (3 seconds)
+                hideProgressBar:false, // Hide the progress bar
+              });
         }
 
     }
@@ -65,12 +73,22 @@ const AuthProvider = ({ children }) => {
             const response = await api.post("/users/login", data);
             localStorage.setItem("it_wale_token",response.data.token)
             console.log(response)
+            toast.success(response.data.message||'Login in successfully', {
+                position: toast.POSITION.TOP_RIGHT, // Change the position of the toast
+                autoClose: 3000, // Auto-close the toast after 3000 milliseconds (3 seconds)
+                hideProgressBar:false, // Hide the progress bar
+              });
             setUser(response.data.user.email)
             // Handle the response here, such as updating state or displaying a messag
             // navigate("/")
         } catch (error) {
             // Handle any errors that occurred during the API call
-            console.error(error);
+            
+            toast.error(error.response.data.message||'Worng credential', {
+                position: toast.POSITION.TOP_RIGHT, // Change the position of the toast
+                autoClose: 3000, // Auto-close the toast after 3000 milliseconds (3 seconds)
+                hideProgressBar:false, // Hide the progress bar
+              });
         }
     }
     const logout=()=>{

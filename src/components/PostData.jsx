@@ -65,7 +65,6 @@ console.log(formattedDate); // '2023-06-08T10:09:41.784Z'
      setLoading(false)
       // ...
     } catch (error) {
-      console.error('Failed to create item:', error);
       // Show an error toast notification for any other errors
       toast.error(response.data||'Failed to create Post', {
         position: toast.POSITION.TOP_RIGHT, // Change the position of the toast
