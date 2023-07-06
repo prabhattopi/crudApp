@@ -21,13 +21,16 @@ const AuthProvider = ({ children }) => {
 
         if (isMounted) {
           // Only update state if the component is still mounted
-        
+          toast.success(response.data.message||'You are logged in', {
+            position: toast.POSITION.TOP_RIGHT, // Change the position of the toast
+            autoClose: 500, // Auto-close the toast after 3000 milliseconds (3 seconds)
+            hideProgressBar:true, // Hide the progress bar
+          });
           setUser(response.data.user.email);
           setIsLoading(false);
         }
       } catch (err) {
         // Handle errors and set the user to null
-        console.log(err);
         if (isMounted) {
           // Only update state if the component is still mounted
           setUser(null);
