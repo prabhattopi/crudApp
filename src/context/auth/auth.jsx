@@ -26,7 +26,7 @@ const AuthProvider = ({ children }) => {
             autoClose: 500, // Auto-close the toast after 3000 milliseconds (3 seconds)
             hideProgressBar:true, // Hide the progress bar
           });
-          setUser(response.data.user.email);
+          setUser(response.data.user);
           setIsLoading(false);
         }
       } catch (err) {
@@ -51,7 +51,7 @@ const AuthProvider = ({ children }) => {
 
     const signup = async (data) => {
         try {
-            console.log(data)
+       
             const response = await api.post("/users/register", data);
             // Handle the response here, such as updating state or displaying a message
             toast.success(response.data.message||'Login in successfully', {
@@ -75,13 +75,13 @@ const AuthProvider = ({ children }) => {
         try {
             const response = await api.post("/users/login", data);
             localStorage.setItem("it_wale_token",response.data.token)
-            console.log(response)
+          
             toast.success(response.data.message||'Login in successfully', {
                 position: toast.POSITION.TOP_RIGHT, // Change the position of the toast
                 autoClose: 3000, // Auto-close the toast after 3000 milliseconds (3 seconds)
                 hideProgressBar:false, // Hide the progress bar
               });
-            setUser(response.data.user.email)
+            setUser(response.data.user)
             // Handle the response here, such as updating state or displaying a messag
             // navigate("/")
         } catch (error) {

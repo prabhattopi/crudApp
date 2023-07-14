@@ -5,7 +5,9 @@ import useAuth from '../hooks/useAuth';
 const Navbar = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [searchQuery, setSearchQuery] = useState("");
-    const {logout}=useAuth()
+    const { logout, user } = useAuth()
+    console.log(user)
+
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen);
     };
@@ -19,8 +21,8 @@ const Navbar = () => {
         // Perform search action using the searchQuery value
         console.log("Search query:", searchQuery);
     };
-    const handleLogout=()=>{
-     logout()
+    const handleLogout = () => {
+        logout()
     }
     return (
         <nav className="bg-gray-800 sticky top-0 z-50">
@@ -38,17 +40,19 @@ const Navbar = () => {
                                 className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
                             >
                                 Home
-              </Link>
-                            <Link
-                                to="/post"
-                                className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-                            >
-                                Create
-              </Link>
+                            </Link>
+                            {
+                                user.role !== "guest" ? <Link
+                                    to="/post"
+                                    className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                                >
+                                    Create
+                                </Link> : <Link to="#" className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Membership ⭐</Link>
+                            }
                             <button className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium" onClick={handleLogout}>
                                 Logout
 
-             </button>
+                            </button>
                         </div>
                     </div>
                     <div className="-mr-2 flex md:hidden">
@@ -69,16 +73,16 @@ const Navbar = () => {
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
                                 </svg>
                             ) : (
-                                    <svg
-                                        className="block h-6 w-6"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        fill="none"
-                                        viewBox="0 0 24 24"
-                                        stroke="currentColor"
-                                    >
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
-                                    </svg>
-                                )}
+                                <svg
+                                    className="block h-6 w-6"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
+                                >
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+                                </svg>
+                            )}
                         </button>
                     </div>
                 </div>
@@ -92,16 +96,18 @@ const Navbar = () => {
                             className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
                         >
                             Home
-            </Link>
-                        <Link
-                            to="/post"
-                            className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
-                        >
-                            Create
-            </Link>
+                        </Link>
+                        {
+                            user.role !== "guest" ? <Link
+                                to="/post"
+                                className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
+                            >
+                                Create
+                            </Link> : <Link to="#" className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Membership ⭐</Link>
+                        }
                         <button className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium" onClick={handleLogout}>
                             Logout
-            </button>
+                        </button>
                     </div>
                 </div>
             )}
@@ -117,7 +123,7 @@ const Navbar = () => {
                     />
                     <button type="submit" className="ml-2 px-4 py-2 bg-gray-900 text-white rounded-md">
                         Search
-          </button>
+                    </button>
                 </form>
             </div>
         </nav>
