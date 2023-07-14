@@ -1,22 +1,46 @@
-import React, { createContext, useEffect, useState } from 'react'
+import React, { createContext, useEffect, useReducer } from 'react';
 import { useNavigate } from 'react-router-dom';
-import api from '../../api'
+import api from '../../api';
 import moment from 'moment';
 import { toast } from 'react-toastify';
 import { fetchData } from '../../httpRequest';
-export const ItemContext = createContext()
-const ItemProvider = ({ children }) => {
-  const [user, setUser] = useState('');
-  const [description, setDescription] = useState('');
 
-  const [scheduleTime, setScheduleTime] = useState('')
-  const [loading, setLoading] = useState(false)
-  const navigate = useNavigate()
+export const ItemContext = createContext();
+
+const initialState = {
+  user: '',
+  description: '',
+  scheduleTime: '',
+  loading: false,
+};
+
+const reducer = (state, action) => {
+  switch (action.type) {
+    case 'SET_USER':
+      return { ...state, user: action.payload };
+    case 'SET_DESCRIPTION':
+      return { ...state, description: action.payload };
+    case 'SET_SCHEDULE_TIME':
+      return { ...state, scheduleTime: action.payload };
+    case 'SET_LOADING':
+      return { ...state, loading: action.payload };
+    case 'RESET_FIELDS':
+      return { ...state, user: '', description: '', scheduleTime: '' };
+    default:
+      return state;
+  }
+};
+
+const ItemProvider = ({ children }) => {
+  const [state, dispatch] = useReducer(reducer, initialState);
+  const navigate = useNavigate();
+
+  const { user, description, scheduleTime, loading } = state;
 
   const postData = async (setItems) => {
     try {
+      dispatch({ type: 'SET_LOADING', payload: true });
 
-      setLoading(true)
       const timeString = scheduleTime; // The time in HH:mm format
 
       // Get the current date in IST
@@ -34,68 +58,61 @@ const ItemProvider = ({ children }) => {
       const formattedDate = date.toISOString();
 
       console.log(formattedDate); // '2023-06-08T10:09:41.784Z'
-      const response = scheduleTime ? await api.post('/items', { user, description, scheduleTime: formattedDate }, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('it_wale_token')}`,
-        },
-      }) : await api.post('/items', { user, description },{
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('it_wale_token')}`,
-        },
-      })
-      console.log(response)
-      // Clear the form fields after successful submission
-      if (response.status == 201) {
-        // Show a success toast notification with a custom message from the backend
-        toast.success(response.data || 'Post created successfully', {
-          position: toast.POSITION.TOP_RIGHT, // Change the position of the toast
-          autoClose: 3000, // Auto-close the toast after 3000 milliseconds (3 seconds)
-          hideProgressBar: false, // Hide the progress bar
-        });
-        // Clear the form fields after successful submission
-        await fetchData().then((data) => setItems(data))
-        setUser('');
-        setDescription('');
-        setScheduleTime('');
+      const response = scheduleTime
+        ? await api.post('/items', { user, description, scheduleTime: formattedDate }, {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem('it_wale_token')}`,
+            },
+          })
+        : await api.post('/items', { user, description }, {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem('it_wale_token')}`,
+            },
+          });
+      console.log(response);
 
-        navigate("/");
-        // Perform any additional actions after successful submission
+      if (response.status === 201) {
+        toast.success(response.data || 'Post created successfully', {
+          position: toast.POSITION.TOP_RIGHT,
+          autoClose: 3000,
+          hideProgressBar: false,
+        });
+
+        await fetchData().then((data) => setItems(data));
+
+        dispatch({ type: 'RESET_FIELDS' });
+
+        navigate('/');
       } else {
-        // Show an error toast notification with a custom message from the backend
         toast.error(response.data || 'Failed to create Post', {
-          position: toast.POSITION.TOP_RIGHT, // Change the position of the toast
-          autoClose: 3000, // Auto-close the toast after 3000 milliseconds (3 seconds)
-          hideProgressBar: false, // Hide the progress bar
+          position: toast.POSITION.TOP_RIGHT,
+          autoClose: 3000,
+          hideProgressBar: false,
         });
       }
-      setLoading(false)
-      // ...
+
+      dispatch({ type: 'SET_LOADING', payload: false });
     } catch (error) {
-      // Show an error toast notification for any other errors
       toast.error('Failed to create Post', {
-        position: toast.POSITION.TOP_RIGHT, // Change the position of the toast
-        autoClose: 3000, // Auto-close the toast after 3000 milliseconds (3 seconds)
-        hideProgressBar: false, // Hide the progress bar
+        position: toast.POSITION.TOP_RIGHT,
+        autoClose: 3000,
+        hideProgressBar: false,
       });
     }
-  }
-
+  };
 
   const value = {
     postData,
     loading,
-    setDescription,
-    setScheduleTime,
-    setUser,
+    setDescription: (value) => dispatch({ type: 'SET_DESCRIPTION', payload: value }),
+    setScheduleTime: (value) => dispatch({ type: 'SET_SCHEDULE_TIME', payload: value }),
+    setUser: (value) => dispatch({ type: 'SET_USER', payload: value }),
     user,
     description,
-    scheduleTime
-  }
-  return (
-    <ItemContext.Provider value={value}>
-   {children}
-    </ItemContext.Provider>
-  )
-}
+    scheduleTime,
+  };
 
-export default ItemProvider
+  return <ItemContext.Provider value={value}>{children}</ItemContext.Provider>;
+};
+
+export default ItemProvider;

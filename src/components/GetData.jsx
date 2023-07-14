@@ -2,9 +2,12 @@ import { memo, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import api from "../api";
 import { toast } from "react-toastify";
+import useAuth from "../hooks/useAuth";
 
 const GetData = ({ items, setItems }) => {
   const [loading,setLoading]=useState(false)
+  const {user}=useAuth()
+
   const navigate = useNavigate();
 
   const handleRedirect = (id) => {
@@ -54,6 +57,9 @@ const GetData = ({ items, setItems }) => {
               Know More
             </Link></span>
             <div className="flex justify-between items-end mt-auto">
+           {
+            user._id===item.users.toString()?(
+              <>
               <div></div>
               <div className="flex space-x-2">
                 <button
@@ -70,6 +76,9 @@ const GetData = ({ items, setItems }) => {
                   Delete
                 </button>
               </div>
+              </>
+            ):""
+           }
             </div>
           </div>
         ))}
