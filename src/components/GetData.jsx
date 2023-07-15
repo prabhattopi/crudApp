@@ -17,7 +17,11 @@ const GetData = ({ items, setItems }) => {
   const handleDelete = async (id) => {
     try {
       setLoading(true)
-      const response=await api.delete(`/items/${id}`);
+      const response=await api.delete(`/items/${id}`,{
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('it_wale_token')}`,
+        },
+      });
       const data = items.filter((item) => item._id !== id);
       if (response.status === 200) {
       toast.success(response.data||'Post created successfully', {

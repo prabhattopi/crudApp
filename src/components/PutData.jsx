@@ -39,7 +39,11 @@ const PutData = ({ items, setItems }) => {
       if(!description){
         setUser(prevUser.description)
       }
-      const response=await api.put(`/items/${itemId}`, { user, description });
+      const response=await api.put(`/items/${itemId}`, { user, description },{
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('it_wale_token')}`,
+        },
+      });
       const data = items.map((e) =>
         e._id === itemId ? { ...e, user, description } : e
       );

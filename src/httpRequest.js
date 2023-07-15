@@ -23,7 +23,11 @@ const fetchData = async () => {
 
 const fetchDataSingle = async (id) => {
   try {
-    const response = await api.get(`/items/${id}`);
+    const response = await api.get(`/items/${id}`,{
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('it_wale_token')}`,
+      },
+    });
     return response.data;
   } catch (error) {
     console.error('Failed to fetch data:', error);
