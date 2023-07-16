@@ -7,8 +7,12 @@ import { toast } from "react-toastify";
 const PutData = ({ items, setItems }) => {
   const param = useParams();
   const itemId = param.id;
-  const [user, setUser] = useState("");
-  const [description, setDescription] = useState("");
+  const prevUser = items.find((e) =>
+  e._id === itemId 
+);
+
+  const [user, setUser] = useState(prevUser.user);
+  const [description, setDescription] = useState(prevUser.description);
   const [single, setSingle] = useState({});
   const navigate = useNavigate();
 
@@ -30,15 +34,8 @@ const PutData = ({ items, setItems }) => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const prevUser = items.find((e) =>
-      e._id === itemId 
-    );
-      if(!user){
-        setUser(prevUser.user)
-      }
-      if(!description){
-        setUser(prevUser.description)
-      }
+    
+    
       const response=await api.put(`/items/${itemId}`, { user, description },{
         headers: {
           Authorization: `Bearer ${localStorage.getItem('it_wale_token')}`,
