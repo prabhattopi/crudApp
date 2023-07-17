@@ -68,9 +68,9 @@ const GetData = ({ items, setItems }) => {
           >
             <h3 className="text-lg font-bold">{item.user}</h3>
             <p className="mt-2">
-              {item.description.length > 28
-                ? item.description.substr(0, 28) + "..."
-                : item.description}
+              {item.occupation.length > 28
+                ? item.occupation.substr(0, 28) + "..."
+                : item.occupation}
             </p>
             <span>
               <Link
