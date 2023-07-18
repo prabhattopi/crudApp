@@ -70,8 +70,8 @@ const PostData = ({ items, setItems }) => {
               <label className="block w-20 text-sm font-medium">Image URL:</label>
               <input
                 type="text"
-                // value={imageURL}
-                // onChange={(e) => setImageURL(e.target.value)}
+                value={state.img}
+                onChange={(e) => dispatch({type:"SET_IMG",payload:e.target.value})}
                 className="flex-1 px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
               />
             </div>
@@ -88,7 +88,7 @@ const PostData = ({ items, setItems }) => {
               <input
                 type="text"
                 // value={githubLink}
-                // onChange={(e) => setGithubLink(e.target.value)}
+                onChange={(e) => dispatch({type:"SET_SOCIAL_LINKS",payload:{name:"github",url:e.target.value}})}
                 className="flex-1 px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
               />
             </div>
@@ -97,7 +97,7 @@ const PostData = ({ items, setItems }) => {
               <input
                 type="text"
                 // value={linkedinLink}
-                // onChange={(e) => setLinkedinLink(e.target.value)}
+                onChange={(e) =>dispatch({type:"SET_SOCIAL_LINKS",payload:{name:"linkedin",url:e.target.value}})}
                 className="flex-1 px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
               />
             </div>
@@ -106,7 +106,7 @@ const PostData = ({ items, setItems }) => {
               <input
                 type="text"
                 // value={linkedinLink}
-                // onChange={(e) => setLinkedinLink(e.target.value)}
+                onChange={(e) => dispatch({type:"SET_SOCIAL_LINKS",payload:{name:"portfolio",url:e.target.value}})}
                 className="flex-1 px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
               />
             </div>

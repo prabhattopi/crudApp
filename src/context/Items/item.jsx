@@ -11,6 +11,9 @@ const initialState = {
   user: '',
   description: '',
   occupation:"",
+  social_links:[],
+  img:"",
+  comments:[],
   scheduleTime: '',
   loading: false,
 };
@@ -23,12 +26,16 @@ const reducer = (state, action) => {
       return { ...state, description: action.payload };
       case 'SET_OCCUPATION':
         return { ...state, occupation: action.payload };
+        case 'SET_IMG':
+        return { ...state, img: action.payload };
+        case 'SET_SOCIAL_LINKS':
+        return { ...state, social_links: [...state.social_links,action.payload] };
     case 'SET_SCHEDULE_TIME':
       return { ...state, scheduleTime: action.payload };
     case 'SET_LOADING':
       return { ...state, loading: action.payload };
     case 'RESET_FIELDS':
-      return { ...state, user: '', description: '', scheduleTime: '' };
+      return {...state,...initialState};
     default:
       return state;
   }
@@ -38,7 +45,7 @@ const ItemProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
   const navigate = useNavigate();
 
-  const { user, description, scheduleTime, loading,occupation } = state;
+  const { user, description, scheduleTime, loading,occupation,social_links,img } = state;
 
   const postData = async (setItems) => {
     try {
@@ -62,12 +69,12 @@ const ItemProvider = ({ children }) => {
 
       console.log(formattedDate); // '2023-06-08T10:09:41.784Z'
       const response = scheduleTime
-        ? await api.post('/items', { user, description, occupation, scheduleTime: formattedDate }, {
+        ? await api.post('/items', { user, description, occupation,social_links,img, scheduleTime: formattedDate }, {
             headers: {
               Authorization: `Bearer ${localStorage.getItem('it_wale_token')}`,
             },
           })
-        : await api.post('/items', { user, description,occupation }, {
+        : await api.post('/items', { user, description,occupation,social_links,img }, {
             headers: {
               Authorization: `Bearer ${localStorage.getItem('it_wale_token')}`,
             },

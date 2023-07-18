@@ -2,9 +2,16 @@ import { memo, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AiOutlineLike, AiOutlineDislike } from "react-icons/ai";
 import { FaGithub, FaLinkedin, FaGlobe } from "react-icons/fa";
+import { IoIosEye } from "react-icons/io";
 import api from "../api";
 import { toast } from "react-toastify";
 import useAuth from "../hooks/useAuth";
+
+const iconsObj = {
+  github: <FaGithub size={20} />,
+  linkedin: <FaLinkedin size={20} />,
+  portfolio: <FaGlobe size={20} />,
+};
 
 const GetData = ({ items, setItems }) => {
   const [loading, setLoading] = useState(false);
@@ -64,14 +71,30 @@ const GetData = ({ items, setItems }) => {
         {items?.map((item) => (
           <div
             key={item._id}
-            className="bg-white shadow-md rounded-lg p-4 flex flex-col border-2 border-gray-200 hover:border-blue-500"
+            className="bg-white shadow-md rounded-lg p-4 flex flex-col border-2 border-gray-200 hover:border-blue-500 relative"
           >
-            <h3 className="text-lg font-bold">{item.user}</h3>
-            <p className="mt-2">
-              {item.occupation.length > 28
-                ? item.occupation.substr(0, 28) + "..."
-                : item.occupation}
-            </p>
+             <div className="flex items-center justify-around h-6 w-12 rounded-lg bg-gray-500 text-white text-sm">
+                  <IoIosEye size={16}/>
+                  <span className="font-bold">{item.views}</span>
+                </div>
+            <div className="flex justify-between items-center">
+              <div>
+                <h3 className="text-lg font-bold">{item.user}</h3>
+                <p className="mt-2">
+                  {item.occupation.length > 28
+                    ? item.occupation.substr(0, 28) + "..."
+                    : item.occupation}
+                </p>
+              </div>
+              <div className="flex flex-col gap-2 items-end">
+                <img
+                  src={item.img}
+                  alt="Image"
+                  className="rounded-full h-16 w-16 object-cover"
+                />
+              </div>
+            </div>
+
             <span>
               <Link
                 to={`/single/${item._id}`}
@@ -98,27 +121,16 @@ const GetData = ({ items, setItems }) => {
                 </button>
               </div>
               <div className="flex space-x-2">
-                <a
-                  href="https://github.com/your-github-url"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <FaGithub size={20} />
-                </a>
-                <a
-                  href="https://linkedin.com/in/your-linkedin-url"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <FaLinkedin size={20} />
-                </a>
-                <a
-                  href="https://your-portfolio-url"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <FaGlobe size={20} />
-                </a>
+                {item.social_links?.map((e) => (
+                  <a
+                    key={e._id}
+                    href={e.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {iconsObj[e.name]}
+                  </a>
+                ))}
               </div>
               {user._id === item.users.toString() && (
                 <div className="flex space-x-2 ml-auto">
