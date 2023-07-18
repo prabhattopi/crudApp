@@ -20,6 +20,8 @@ const PostData = ({ items, setItems }) => {
     setDescription,
     setScheduleTime,
     setUser,
+    state,
+    dispatch
   } = useContext(ItemContext);
 
   const handleSubmit = async (event) => {
@@ -59,8 +61,8 @@ const PostData = ({ items, setItems }) => {
               <label className="block w-20 text-sm font-medium">Occupation:</label>
               <input
                 type="text"
-                // value={occupation}
-                // onChange={(e) => setOccupation(e.target.value)}
+                value={state.occupation}
+                onChange={(e) => dispatch({type:"SET_OCCUPATION",payload:e.target.value})}
                 className="flex-1 px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
               />
             </div>

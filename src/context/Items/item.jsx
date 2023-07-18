@@ -10,6 +10,7 @@ export const ItemContext = createContext();
 const initialState = {
   user: '',
   description: '',
+  occupation:"",
   scheduleTime: '',
   loading: false,
 };
@@ -20,6 +21,8 @@ const reducer = (state, action) => {
       return { ...state, user: action.payload };
     case 'SET_DESCRIPTION':
       return { ...state, description: action.payload };
+      case 'SET_OCCUPATION':
+        return { ...state, occupation: action.payload };
     case 'SET_SCHEDULE_TIME':
       return { ...state, scheduleTime: action.payload };
     case 'SET_LOADING':
@@ -35,7 +38,7 @@ const ItemProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
   const navigate = useNavigate();
 
-  const { user, description, scheduleTime, loading } = state;
+  const { user, description, scheduleTime, loading,occupation } = state;
 
   const postData = async (setItems) => {
     try {
@@ -59,12 +62,12 @@ const ItemProvider = ({ children }) => {
 
       console.log(formattedDate); // '2023-06-08T10:09:41.784Z'
       const response = scheduleTime
-        ? await api.post('/items', { user, description, scheduleTime: formattedDate }, {
+        ? await api.post('/items', { user, description, occupation, scheduleTime: formattedDate }, {
             headers: {
               Authorization: `Bearer ${localStorage.getItem('it_wale_token')}`,
             },
           })
-        : await api.post('/items', { user, description }, {
+        : await api.post('/items', { user, description,occupation }, {
             headers: {
               Authorization: `Bearer ${localStorage.getItem('it_wale_token')}`,
             },
@@ -110,6 +113,8 @@ const ItemProvider = ({ children }) => {
     user,
     description,
     scheduleTime,
+    dispatch,
+    state
   };
 
   return <ItemContext.Provider value={value}>{children}</ItemContext.Provider>;
