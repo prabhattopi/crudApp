@@ -110,14 +110,14 @@ const GetData = ({ items, setItems }) => {
                   onClick={() => handleLike(item._id)}
                 >
                   <AiOutlineLike className="mr-1" />
-                  <span>{item.likes || 0}</span>
+                  <span>{item.like.length || 0}</span>
                 </button>
                 <button
                   className="px-2 py-1 text-sm flex items-center text-gray-400 rounded hover:text-red-500"
                   onClick={() => handleDislike(item._id)}
                 >
                   <AiOutlineDislike className="mr-1" />
-                  <span>{item.dislikes || 0}</span>
+                  <span>{item.dislike.length || 0}</span>
                 </button>
               </div>
               <div className="flex space-x-2">
