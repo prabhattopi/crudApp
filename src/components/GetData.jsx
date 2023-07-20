@@ -22,7 +22,7 @@ const GetData = ({ items, setItems }) => {
   const navigate = useNavigate();
 
   const handleRedirect = (id) => {
-    navigate(`/${id}`);
+    navigate(`/single/${id}`);
   };
 
   const handleDelete = async (id) => {

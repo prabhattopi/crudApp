@@ -10,6 +10,7 @@ import Signup from "./components/Signup";
 import PrivateRoutes from "./routes/PrivateRoutes";
 import PublicRoutes from "./routes/PublicRoutes";
 import useItem from "./hooks/useItem";
+import SingleUser from "./pages/SingleUser";
 function App() {
   const [items, setItems] = useState([]);
   const {state}=useItem()
@@ -27,7 +28,7 @@ function App() {
       <Route path="/" element={<PrivateRoutes><Home items={items} setItems={setItems}/></PrivateRoutes>} />
       <Route path="/post" element={<PrivateRoutes><PostData items={items} setItems={setItems}/></PrivateRoutes>} />
       <Route path="/:id" element={<PrivateRoutes><PutData items={items} setItems={setItems}/></PrivateRoutes>} />
-   
+      <Route path="/single/:id" element={<PrivateRoutes><SingleUser/></PrivateRoutes>} />  
     
     <Route path="/login" element={<PublicRoutes><Login/></PublicRoutes>
       } />
