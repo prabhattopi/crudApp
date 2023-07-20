@@ -9,14 +9,16 @@ import Login from "./components/Login";
 import Signup from "./components/Signup";
 import PrivateRoutes from "./routes/PrivateRoutes";
 import PublicRoutes from "./routes/PublicRoutes";
+import useItem from "./hooks/useItem";
 function App() {
   const [items, setItems] = useState([]);
+  const {state}=useItem()
 
   useEffect(() => {
     fetchData()
       .then((data) => setItems(data))
       .catch((error) => console.error("Failed to fetch items:", error));
-  }, []);
+  }, [state.likeDislikeStatus]);
 
   return (
     <>

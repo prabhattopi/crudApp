@@ -6,7 +6,7 @@ const Navbar = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [searchQuery, setSearchQuery] = useState("");
     const { logout, user } = useAuth()
-    console.log(user)
+
 
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen);

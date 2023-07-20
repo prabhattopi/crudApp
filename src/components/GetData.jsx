@@ -6,6 +6,7 @@ import { IoIosEye } from "react-icons/io";
 import api from "../api";
 import { toast } from "react-toastify";
 import useAuth from "../hooks/useAuth";
+import useItem from "../hooks/useItem";
 
 const iconsObj = {
   github: <FaGithub size={20} />,
@@ -16,6 +17,7 @@ const iconsObj = {
 const GetData = ({ items, setItems }) => {
   const [loading, setLoading] = useState(false);
   const { user } = useAuth();
+  const { handleLikeDislike } = useItem();
 
   const navigate = useNavigate();
 
@@ -57,13 +59,7 @@ const GetData = ({ items, setItems }) => {
     }
   };
 
-  const handleLike = (id) => {
-    // Handle like functionality here
-  };
 
-  const handleDislike = (id) => {
-    // Handle dislike functionality here
-  };
 
   return (
     <div className="container px-4 py-4 my-2">
@@ -73,10 +69,10 @@ const GetData = ({ items, setItems }) => {
             key={item._id}
             className="bg-white shadow-md rounded-lg p-4 flex flex-col border-2 border-gray-200 hover:border-blue-500 relative"
           >
-             <div className="flex items-center justify-around h-6 w-12 rounded-lg bg-gray-500 text-white text-sm">
-                  <IoIosEye size={16}/>
-                  <span className="font-bold">{item.views}</span>
-                </div>
+            <div className="flex items-center justify-around h-6 w-12 rounded-lg bg-gray-500 text-white text-sm">
+              <IoIosEye size={16} />
+              <span className="font-bold">{item.views}</span>
+            </div>
             <div className="flex justify-between items-center">
               <div>
                 <h3 className="text-lg font-bold">{item.user}</h3>
@@ -106,18 +102,20 @@ const GetData = ({ items, setItems }) => {
             <div className="flex justify-between items-center mt-auto">
               <div className="flex space-x-2">
                 <button
+                  disabled={!!item.like.find(e => e.userId.toString() == user._id)}
                   className="px-2 py-1 text-sm flex items-center text-gray-400 rounded hover:text-blue-500"
-                  onClick={() => handleLike(item._id)}
+                  onClick={() => handleLikeDislike({ id: item._id.toString(), action: "like" })}
                 >
-                  <AiOutlineLike className="mr-1" />
-                  <span>{item.like.length || 0}</span>
+                  <AiOutlineLike size={15} className={`font-bold mr-1 ${item.like.find(e => e.userId.toString() == user._id) ? "text-green-500 cursor-not-allowed" : ""}`} />
+                  <span className="text-black">{item.like.length || 0}</span>
                 </button>
                 <button
+                  disabled={!!item.dislike.find(e => e.userId.toString() == user._id)}
                   className="px-2 py-1 text-sm flex items-center text-gray-400 rounded hover:text-red-500"
-                  onClick={() => handleDislike(item._id)}
+                  onClick={() => handleLikeDislike({ id: item._id.toString(), action: "dislike" })}
                 >
-                  <AiOutlineDislike className="mr-1" />
-                  <span>{item.dislike.length || 0}</span>
+                  <AiOutlineDislike size={15} className={`font-bold mr-1 ${item.dislike.find(e => e.userId.toString() == user._id) ? "text-red-500 cursor-not-allowed" : ""}`} />
+                  <span className="text-black">{item.dislike.length || 0}</span>
                 </button>
               </div>
               <div className="flex space-x-2">
@@ -141,9 +139,8 @@ const GetData = ({ items, setItems }) => {
                     Edit
                   </button>
                   <button
-                    className={`px-2 py-1 text-sm font-medium text-white bg-red-500 ${
-                      loading ? "cursor-not-allowed" : "cursor"
-                    } rounded hover:bg-red-600`}
+                    className={`px-2 py-1 text-sm font-medium text-white bg-red-500 ${loading ? "cursor-not-allowed" : "cursor"
+                      } rounded hover:bg-red-600`}
                     onClick={() => handleDelete(item._id)}
                     disabled={loading}
                   >

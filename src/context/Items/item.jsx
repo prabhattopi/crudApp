@@ -15,6 +15,7 @@ const initialState = {
   img:"https://firebasestorage.googleapis.com/v0/b/image-gallery-8cf2b.appspot.com/o/images%2F1689583584637.webp?alt=media&token=5320ad10-a9d0-491b-8f9f-130cffdaa3b2",
   comments:[],
   scheduleTime: '',
+  likeDislikeStatus:false,
   loading: false,
 };
 
@@ -32,6 +33,9 @@ const reducer = (state, action) => {
         return { ...state, social_links: [...state.social_links,action.payload] };
     case 'SET_SCHEDULE_TIME':
       return { ...state, scheduleTime: action.payload };
+    case 'SET_LIKE_DISLIKE':
+      return { ...state, likeDislikeStatus:!state.likeDislikeStatus };
+
     case 'SET_LOADING':
       return { ...state, loading: action.payload };
     case 'RESET_FIELDS':
@@ -110,6 +114,24 @@ const ItemProvider = ({ children }) => {
       });
     }
   };
+  const handleLikeDislike = async(obj) => {
+    try{
+      let res=await api.post('/items/count', obj, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('it_wale_token')}`,
+        },
+      })
+      if(res.status=="200"){
+        dispatch({type:"SET_LIKE_DISLIKE"})
+      }
+
+    }
+    catch(err){
+     console.log(err.response.data.message)
+      
+
+    }
+  };
 
   const value = {
     postData,
@@ -121,7 +143,8 @@ const ItemProvider = ({ children }) => {
     description,
     scheduleTime,
     dispatch,
-    state
+    state,
+    handleLikeDislike
   };
 
   return <ItemContext.Provider value={value}>{children}</ItemContext.Provider>;
