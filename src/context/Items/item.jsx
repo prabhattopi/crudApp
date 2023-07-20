@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import api from '../../api';
 import moment from 'moment';
 import { toast } from 'react-toastify';
+import { throttle } from 'lodash';
 import { fetchData } from '../../httpRequest';
 
 export const ItemContext = createContext();
@@ -132,6 +133,7 @@ const ItemProvider = ({ children }) => {
 
     }
   };
+  const throttledHandleLikeDislike = throttle(handleLikeDislike, 1000);
 
   const value = {
     postData,
@@ -144,7 +146,7 @@ const ItemProvider = ({ children }) => {
     scheduleTime,
     dispatch,
     state,
-    handleLikeDislike
+    handleLikeDislike:throttledHandleLikeDislike
   };
 
   return <ItemContext.Provider value={value}>{children}</ItemContext.Provider>;
