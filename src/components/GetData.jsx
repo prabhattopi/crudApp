@@ -22,7 +22,7 @@ const GetData = ({ items, setItems }) => {
   const navigate = useNavigate();
 
   const handleRedirect = (id) => {
-    navigate(`/single/${id}`);
+    navigate(`/${id}`);
   };
 
   const handleDelete = async (id) => {
@@ -91,7 +91,7 @@ const GetData = ({ items, setItems }) => {
               </div>
             </div>
 
-            <span>
+            <span onClick={()=>handleLikeDislike({id:item._id.toString(),action:"views"})}>
               <Link
                 to={`/single/${item._id}`}
                 className="text-xs mt-2 text-blue-500 hover:text-blue-600 hover:underline"
