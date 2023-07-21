@@ -12,30 +12,21 @@ import PublicRoutes from "./routes/PublicRoutes";
 import useItem from "./hooks/useItem";
 import SingleUser from "./pages/SingleUser";
 function App() {
-  const [items, setItems] = useState([]);
-  const {state}=useItem()
-
-  useEffect(() => {
-    fetchData()
-      .then((data) => setItems(data))
-      .catch((error) => console.error("Failed to fetch items:", error));
-  }, [state.likeDislikeStatus]);
-
   return (
     <>
-    <Routes>
-  
-      <Route path="/" element={<PrivateRoutes><Home items={items} setItems={setItems}/></PrivateRoutes>} />
-      <Route path="/post" element={<PrivateRoutes><PostData items={items} setItems={setItems}/></PrivateRoutes>} />
-      <Route path="/:id" element={<PrivateRoutes><PutData items={items} setItems={setItems}/></PrivateRoutes>} />
-      <Route path="/single/:id" element={<PrivateRoutes><SingleUser/></PrivateRoutes>} />  
-    
-    <Route path="/login" element={<PublicRoutes><Login/></PublicRoutes>
-      } />
-      <Route path="/signup" element={<PublicRoutes><Signup/></PublicRoutes>} />
-   
-    
-    </Routes>
+      <Routes>
+
+        <Route path="/" element={<PrivateRoutes><Home /></PrivateRoutes>} />
+        <Route path="/post" element={<PrivateRoutes><PostData /></PrivateRoutes>} />
+        <Route path="/:id" element={<PrivateRoutes><PutData /></PrivateRoutes>} />
+        <Route path="/single/:id" element={<PrivateRoutes><SingleUser /></PrivateRoutes>} />
+
+        <Route path="/login" element={<PublicRoutes><Login /></PublicRoutes>
+        } />
+        <Route path="/signup" element={<PublicRoutes><Signup /></PublicRoutes>} />
+
+
+      </Routes>
     </>
   );
 }

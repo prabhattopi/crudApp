@@ -3,11 +3,13 @@ import api from "../api";
 import { useNavigate, useParams } from "react-router-dom";
 import { fetchDataSingle } from "../httpRequest";
 import { toast } from "react-toastify";
+import useItem from "../hooks/useItem";
 
-const PutData = ({ items, setItems }) => {
+const PutData = () => {
+  const {dispatch,state}=useItem()
   const param = useParams();
   const itemId = param.id;
-  const prevUser = items.find((e) =>
+  const prevUser = state.items.find((e) =>
   e._id === itemId 
 );
 
@@ -19,7 +21,6 @@ const PutData = ({ items, setItems }) => {
   useEffect(() => {
     fetchDataSingle(itemId)
       .then((data) => {
-        console.log(data);
         setSingle(data);
       })
       .catch((error) => console.error("Failed to fetch items:", error));
@@ -41,17 +42,16 @@ const PutData = ({ items, setItems }) => {
           Authorization: `Bearer ${localStorage.getItem('it_wale_token')}`,
         },
       });
-      const data = items.map((e) =>
+      const data = state.items.map((e) =>
         e._id === itemId ? { ...e, user, description } : e
       );
-      console.log(data);
       if(response.status=="200"){
         toast.success(response.data||'Item updated successfully', {
           position: toast.POSITION.TOP_RIGHT, // Change the position of the toast
           autoClose: 3000, // Auto-close the toast after 3000 milliseconds (3 seconds)
           hideProgressBar:false, // Hide the progress bar
         });
-        setItems(data);
+        dispatch({type:"SET_ITEM",payload:data})
         navigate("/");
       }
       else{

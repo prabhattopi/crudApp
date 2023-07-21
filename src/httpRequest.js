@@ -12,8 +12,6 @@ const fetchData = async () => {
       // Compare year, month, day, hour, and minute of the two timestamps
       return scheduleTime.isSameOrBefore(currentTimestamp, 'minute');
     });
-    
-    console.log(timeData);
     return timeData;
   } catch (error) {
     console.error('Failed to fetch data:', error);
@@ -28,6 +26,7 @@ const fetchDataSingle = async (id) => {
         Authorization: `Bearer ${localStorage.getItem('it_wale_token')}`,
       },
     });
+    
     return response.data;
   } catch (error) {
     console.error('Failed to fetch data:', error);

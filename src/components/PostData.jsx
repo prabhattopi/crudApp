@@ -3,7 +3,7 @@ import { useState, memo, useContext } from 'react';
 import { AiOutlineClockCircle } from 'react-icons/ai';
 import { ItemContext } from '../context/Items/item';
 
-const PostData = ({ items, setItems }) => {
+const PostData = () => {
   const [showModal, setShowModal] = useState(false);
 
   const {
@@ -26,7 +26,7 @@ const PostData = ({ items, setItems }) => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    await postData(setItems);
+    await postData();
   };
 
   const openModal = () => {
