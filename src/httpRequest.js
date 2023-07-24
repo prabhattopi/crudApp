@@ -3,7 +3,11 @@ import api from './api';
 
 const fetchData = async () => {
   try {
-    const response = await api.get('/items');
+    const response = await api.get('/items',{
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('it_wale_token')}`,
+      },
+    });
     const currentTimestamp = moment(); // Get the current time
     
     const timeData = response.data.filter(item => {
