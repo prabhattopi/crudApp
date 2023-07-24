@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 import useAuth from "../hooks/useAuth";
 import useItem from "../hooks/useItem";
 
-const iconsObj = {
+export const iconsObj = {
   github: <FaGithub size={20} />,
   linkedin: <FaLinkedin size={20} />,
   portfolio: <FaGlobe size={20} />,

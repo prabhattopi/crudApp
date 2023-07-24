@@ -1,0 +1,9 @@
+.chat-section {
+    position: fixed;
+    bottom: -5px;
+    right: 0;
+    width:100%;
+    background-color: azure;
+
+    padding: 10px 10xp 10px 10px;
+  }

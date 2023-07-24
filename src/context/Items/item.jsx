@@ -9,7 +9,7 @@ import { fetchData } from '../../httpRequest';
 export const ItemContext = createContext();
 
 const initialState = {
-  items:[],
+  items: [],
   user: '',
   description: '',
   occupation: "",
@@ -25,7 +25,7 @@ const initialState = {
 const reducer = (state, action) => {
   switch (action.type) {
     case 'SET_ITEM':
-      return { ...state, items:action.payload};
+      return { ...state, items: action.payload };
     case 'SET_USER':
       return { ...state, user: action.payload };
     case 'SET_DESCRIPTION':
@@ -42,6 +42,8 @@ const reducer = (state, action) => {
       return { ...state, likeDislikeStatus: !state.likeDislikeStatus };
     case 'SET_SINGLE':
       return { ...state, singleData: action.payload };
+    case "REMOVE_SINGLE":
+      return { ...state, singleData: {} }
 
     case 'SET_LOADING':
       return { ...state, loading: action.payload };
@@ -98,10 +100,10 @@ const ItemProvider = ({ children }) => {
           hideProgressBar: false,
         });
 
-      
+
         fetchData()
-        .then((data) => dispatch({type:"SET_ITEM",payload:data}))
-        .catch((error) => console.error("Failed to fetch items:", error));
+          .then((data) => dispatch({ type: "SET_ITEM", payload: data }))
+          .catch((error) => console.error("Failed to fetch items:", error));
         dispatch({ type: 'RESET_FIELDS' });
 
         navigate('/');
@@ -151,7 +153,7 @@ const ItemProvider = ({ children }) => {
 
   useEffect(() => {
     fetchData()
-      .then((data) => dispatch({type:"SET_ITEM",payload:data}))
+      .then((data) => dispatch({ type: "SET_ITEM", payload: data }))
       .catch((error) => console.error("Failed to fetch items:", error));
   }, [state.likeDislikeStatus]);
 
