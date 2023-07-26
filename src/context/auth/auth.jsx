@@ -75,6 +75,7 @@ const AuthProvider = ({ children }) => {
         try {
             const response = await api.post("/users/login", data);
             localStorage.setItem("it_wale_token",response.data.token)
+            
           
             toast.success(response.data.message||'Login in successfully', {
                 position: toast.POSITION.TOP_RIGHT, // Change the position of the toast
