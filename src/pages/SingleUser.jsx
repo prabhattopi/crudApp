@@ -164,7 +164,7 @@ toast.error(error.response.data.message||'Worng credential', {
     placeholder='Add a public comment...'
     className='w-full p-2 border focus:outline-none focus:border-black-500'
   />
-  <button disabled={!!comment} onClick={handleNewchat} className='bg-blue-700 w-28 text-white font-bold px-2 py-2 rounded-lg text-center'>Post</button>
+  <button disabled={!comment} onClick={handleNewchat} className='bg-blue-700 w-28 text-white font-bold px-2 py-2 rounded-lg text-center'>Post</button>
 </div>
         
       
