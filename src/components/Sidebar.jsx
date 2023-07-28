@@ -34,7 +34,7 @@ const Sidebar = () => {
 
   return (
     <div
-    className="flex flex-col pt-4 w-full sm:w-64 bg-gray-200 overflow-hidden"
+    className="flex flex-col pt-4 w-full sm:w-64 2xl:w-1/4 2xl:px-10 2xl:py-10 bg-gray-200 overflow-hidden"
     style={{ height: sidebarHeight }}
   >
     <div

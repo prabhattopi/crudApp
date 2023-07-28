@@ -13,7 +13,7 @@ const Home = () => {
       <Navbar />
       <div className="flex flex-col md:flex-row">
         <Sidebar />
-        <div className="container bg-sky-800 h-[calc(100vh-118px)]   px-4 py-4 flex-grow overflow-y-auto max-h-80vh">
+        <div className="bg-sky-800 h-[calc(100vh-118px)] px-4 py-4 flex-grow overflow-y-auto max-h-80vh">
           {
             state.items.length > 0 ? <GetData/> : (
               <div className="flex flex-col justify-center items-center h-full text-white text-3xl sm:text-1xl">
