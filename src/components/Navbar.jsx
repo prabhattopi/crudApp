@@ -91,7 +91,7 @@ const Navbar = () => {
             </div>
 
             {isMenuOpen && (
-                <div className="md:hidden">
+                <div className="md:hidden absolute top-35 w-full bg-gray-800 z-50">
                     <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
                         <Link
                             to="/"
