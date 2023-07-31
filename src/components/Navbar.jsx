@@ -1,12 +1,12 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import Logo from "../assets/Logo.png"
 import useAuth from '../hooks/useAuth';
-import {AiOutlineSearch} from "react-icons/ai";
+
 
 const Navbar = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
-    const [searchQuery, setSearchQuery] = useState("");
+    
     const { logout, user } = useAuth()
 
 
@@ -14,15 +14,7 @@ const Navbar = () => {
         setIsMenuOpen(!isMenuOpen);
     };
 
-    const handleSearchInputChange = (event) => {
-        setSearchQuery(event.target.value);
-    };
-
-    const handleSearchSubmit = (event) => {
-        event.preventDefault();
-        // Perform search action using the searchQuery value
-        console.log("Search query:", searchQuery);
-    };
+ 
     const handleLogout = () => {
         logout()
     }
@@ -49,7 +41,7 @@ const Navbar = () => {
                                     className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
                                 >
                                     Create
-                                </Link> : <Link to="#" className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Membership ⭐</Link>
+                                </Link> : <Link to="/members" className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Membership ⭐</Link>
                             }
                             <button className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium" onClick={handleLogout}>
                                 Logout
@@ -114,7 +106,7 @@ const Navbar = () => {
                 </div>
             )}
 
-            <div className="flex justify-end bg-gray-700 py-2 px-2">
+            {/* {<div className="flex justify-end bg-gray-700 py-2 px-2">
                 <div className="hidden"></div>
                 <form onSubmit={handleSearchSubmit} className="w-full sm:w-2/5 flex relative">
                     <input
@@ -124,10 +116,10 @@ const Navbar = () => {
                         className="w-full px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white"
                         placeholder="Search..."
                     />
-                    <button type="submit" disabled={!searchQuery} className={`${!searchQuery&&"text-gray-300"} absolute right-2 top-1 ml-2 px-4 py-2 text-black rounded-md`}>
-                    <AiOutlineSearch size={20} className="" />                    </button>
+                    <button type="submit" disabled={!searchQuery} className={`${!searchQuery && "text-gray-300"} absolute right-2 top-1 ml-2 px-4 py-2 text-black rounded-md`}>
+                        <AiOutlineSearch size={20} className="" />                    </button>
                 </form>
-            </div>
+            </div>} */}
         </nav>
     );
 };

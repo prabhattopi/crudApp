@@ -91,7 +91,11 @@ const GetData = () => {
               </div>
             </div>
 
-            <span onClick={()=>handleLikeDislike({id:item._id.toString(),action:"views"})}>
+            <span
+              onClick={() =>
+                handleLikeDislike({ id: item._id.toString(), action: "views" })
+              }
+            >
               <Link
                 to={`/single/${item._id}`}
                 className="text-xs mt-2 text-blue-500 hover:text-blue-600 hover:underline"
@@ -102,19 +106,47 @@ const GetData = () => {
             <div className="flex justify-between items-center mt-auto">
               <div className="flex space-x-2">
                 <button
-                  disabled={!!item.like.find(e => e.userId.toString() == user._id)}
+                  disabled={
+                    !!item.like.find((e) => e.userId.toString() == user._id)
+                  }
                   className="px-2 py-1 text-sm flex items-center text-gray-400 rounded hover:text-blue-500"
-                  onClick={() => handleLikeDislike({ id: item._id.toString(), action: "like" })}
+                  onClick={() =>
+                    handleLikeDislike({
+                      id: item._id.toString(),
+                      action: "like",
+                    })
+                  }
                 >
-                  <AiOutlineLike size={15} className={`font-bold mr-1 ${item.like.find(e => e.userId.toString() == user._id) ? "text-green-500 cursor-not-allowed" : ""}`} />
+                  <AiOutlineLike
+                    size={15}
+                    className={`font-bold mr-1 ${
+                      item.like.find((e) => e.userId.toString() == user._id)
+                        ? "text-green-500 cursor-not-allowed"
+                        : ""
+                    }`}
+                  />
                   <span className="text-black">{item.like.length || 0}</span>
                 </button>
                 <button
-                  disabled={!!item.dislike.find(e => e.userId.toString() == user._id)}
+                  disabled={
+                    !!item.dislike.find((e) => e.userId.toString() == user._id)
+                  }
                   className="px-2 py-1 text-sm flex items-center text-gray-400 rounded hover:text-red-500"
-                  onClick={() => handleLikeDislike({ id: item._id.toString(), action: "dislike" })}
+                  onClick={() =>
+                    handleLikeDislike({
+                      id: item._id.toString(),
+                      action: "dislike",
+                    })
+                  }
                 >
-                  <AiOutlineDislike size={15} className={`font-bold mr-1 ${item.dislike.find(e => e.userId.toString() == user._id) ? "text-red-500 cursor-not-allowed" : ""}`} />
+                  <AiOutlineDislike
+                    size={15}
+                    className={`font-bold mr-1 ${
+                      item.dislike.find((e) => e.userId.toString() == user._id)
+                        ? "text-red-500 cursor-not-allowed"
+                        : ""
+                    }`}
+                  />
                   <span className="text-black">{item.dislike.length || 0}</span>
                 </button>
               </div>
@@ -139,8 +171,9 @@ const GetData = () => {
                     Edit
                   </button>
                   <button
-                    className={`px-2 py-1 text-sm font-medium text-white bg-red-500 ${loading ? "cursor-not-allowed" : "cursor"
-                      } rounded hover:bg-red-600`}
+                    className={`px-2 py-1 text-sm font-medium text-white bg-red-500 ${
+                      loading ? "cursor-not-allowed" : "cursor"
+                    } rounded hover:bg-red-600`}
                     onClick={() => handleDelete(item._id)}
                     disabled={loading}
                   >
@@ -153,7 +186,7 @@ const GetData = () => {
         ))}
       </div>
     </div>
-  );
+  )
 };
 
 export default memo(GetData);
