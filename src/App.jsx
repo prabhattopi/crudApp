@@ -9,10 +9,12 @@ import PrivateRoutes from "./routes/PrivateRoutes"
 import PublicRoutes from "./routes/PublicRoutes"
 import SingleUser from "./pages/SingleUser"
 import Members from "./pages/Members"
+import useAuth from "./hooks/useAuth"
 function App() {
+  const {user}=useAuth()
   return (
     <>
-      <Navbar />
+      {user && <Navbar />}
       <Routes>
         <Route
           path="/"
