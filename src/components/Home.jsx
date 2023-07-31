@@ -27,7 +27,7 @@ const Home = () => {
       <div className="flex flex-col md:flex-row">
         <Sidebar />
         <div className="flex flex-col w-full  gap-2 bg-sky-800 h-[calc(100vh-62px)]">
-          <div className="flex justify-end pt-4 px-1 mr-8">
+          <div className="flex justify-end pt-4 mr-4">
             <div className="hidden"></div>
             <form
               onSubmit={handleSearchSubmit}
