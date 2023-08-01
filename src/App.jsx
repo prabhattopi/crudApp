@@ -10,6 +10,9 @@ import PublicRoutes from "./routes/PublicRoutes"
 import SingleUser from "./pages/SingleUser"
 import Members from "./pages/Members"
 import useAuth from "./hooks/useAuth"
+import { Elements } from '@stripe/react-stripe-js';
+import { loadStripe } from '@stripe/stripe-js';
+const stripePromise = loadStripe('YOUR_STRIPE_PUBLISHABLE_KEY');
 function App() {
   const {user}=useAuth()
   return (
@@ -52,7 +55,9 @@ function App() {
           path="/members"
           element={
             <PrivateRoutes>
+            <Elements stripe={stripePromise}>
               <Members />
+              </Elements>
             </PrivateRoutes>
           }
         />
