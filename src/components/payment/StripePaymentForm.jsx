@@ -1,80 +1,76 @@
-import React from 'react';
+// src/components/PaymentForm.js
+import React, { useState } from 'react';
 import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import axios from 'axios';
 
 const StripePaymentForm = () => {
+  const [amount, setAmount] = useState(0);
+  const [isValidAmount, setIsValidAmount] = useState(true); // Add state for form validation
   const stripe = useStripe();
   const elements = useElements();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSubmit = async (event) => {
+    event.preventDefault();
 
-    if (!stripe || !elements) {
-      return;
+    if (amount < 1) {
+      setIsValidAmount(false);
+      return; // If amount is less than 1 INR, do not proceed with the payment
+    } else {
+      setIsValidAmount(true); // Reset validation status if amount is valid
     }
 
-    const cardElement = elements.getElement(CardElement);
+    try {
+      const response = await axios.post('/create-payment-intent', { amount: amount*100 });
+      const { clientSecret } = response.data;
+      const result = await stripe.confirmCardPayment(clientSecret, {
+        payment_method: {
+          card: elements.getElement(CardElement),
+        },
+      });
 
-    const { error, paymentMethod } = await stripe.createPaymentMethod({
-      type: 'card',
-      card: cardElement,
-    });
-
-    if (error) {
-      console.error(error);
-    } else {
-      // Call your backend API to handle payment processing
-      try {
-        const response = await axios.post('/api/payment', {
-          paymentMethodId: paymentMethod.id,
-          amount: 1000, // Replace with the actual amount to charge
-          currency: 'usd', // Replace with your desired currency
-        });
-
-        console.log(response.data);
-        // Handle successful payment
-      } catch (error) {
-        console.error(error);
-        // Handle payment error
+      if (result.error) {
+        console.error('Payment failed:', result.error.message);
+      } else {
+        console.log('Payment successful:', result.paymentIntent);
       }
+    } catch (error) {
+      console.error('Error creating payment intent:', error);
     }
   };
 
   return (
-    <div className="flex items-center justify-center bg-gray-100">
-      <div className="max-w-md w-full px-8 py-6 bg-white rounded-lg shadow-md">
-        <h2 className="text-2xl font-semibold mb-6">Payment Information</h2>
-        <form onSubmit={handleSubmit}>
-          <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="cardNumber">
-              Card Number
-            </label>
-            <CardElement
-              options={{
-                style: {
-                  base: {
-                    fontSize: '16px',
-                    color: '#424770',
-                    '::placeholder': {
-                      color: '#aab7c4',
-                    },
-                  },
-                  invalid: {
-                    color: '#9e2146',
-                  },
-                },
-              }}
-            />
-          </div>
-          <button
-            type="submit"
-            className="w-full mt-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring focus:border-blue-300"
-          >
-            Pay Now
-          </button>
-        </form>
+    <form onSubmit={handleSubmit} className="p-4 bg-gray-100 rounded-md shadow-md">
+      <div className="mb-4">
+        <label htmlFor="amount" className="block mb-1 font-semibold">
+          Amount (INR)
+        </label>
+        <input
+          type="number"
+          id="amount"
+          placeholder="Enter amount in INR"
+          value={amount}
+          onChange={(e) => setAmount(e.target.value)}
+          className={`w-full px-3 py-2 border rounded-md focus:outline-none ${
+            !isValidAmount ? 'border-red-500' : 'border-blue-500'
+          }`}
+        />
+        {!isValidAmount && (
+          <p className="text-red-500 mt-1 text-sm">Amount must be at least 1 INR.</p>
+        )}
       </div>
-    </div>
+      <div className="mb-4">
+        <label className="block mb-1 font-semibold">Card Details</label>
+        <div className="bg-white rounded-md p-3 border">
+          <CardElement options={{ style: { base: { fontSize: '16px' } } }} />
+        </div>
+      </div>
+      <button
+        type="submit"
+        className="px-4 py-2 bg-blue-500 text-white font-semibold rounded-md hover:bg-blue-600"
+      >
+        Pay
+      </button>
+    </form>
   );
 };
 
