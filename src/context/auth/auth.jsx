@@ -6,6 +6,7 @@ export const AuthContext = createContext()
 const AuthProvider = ({ children }) => {
     const [user,setUser]=useState(null);
     const [isLoading,setIsLoading]=useState(true);
+    const [token,setToken]=useState(localStorage.getItem('it_wale_token'))
     const navigate=useNavigate()
     
    useEffect(() => {
@@ -75,8 +76,9 @@ const AuthProvider = ({ children }) => {
         try {
             const response = await api.post("/users/login", data);
             localStorage.setItem("it_wale_token",response.data.token)
+            setToken(localStorage.getItem('it_wale_token'))
             
-          
+       
             toast.success(response.data.message||'Login in successfully', {
                 position: toast.POSITION.TOP_RIGHT, // Change the position of the toast
                 autoClose: 3000, // Auto-close the toast after 3000 milliseconds (3 seconds)
@@ -104,7 +106,8 @@ const AuthProvider = ({ children }) => {
         isLoading,
         signup, 
         login,
-        logout
+        logout,
+        token
     }
     return (
         <AuthContext.Provider value={value}>

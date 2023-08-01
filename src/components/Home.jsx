@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useState} from "react";
 import useItem from "../hooks/useItem";
 import GetData from "./GetData";
 import Sidebar from "./Sidebar";
@@ -20,8 +20,6 @@ const Home = () => {
         // Perform search action using the searchQuery value
         console.log("Search query:", searchQuery);
     };
-    
-
   return (
     <>
       <div className="flex flex-col md:flex-row">

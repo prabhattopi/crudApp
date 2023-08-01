@@ -5,6 +5,7 @@ import moment from 'moment';
 import { toast } from 'react-toastify';
 import { throttle } from 'lodash';
 import { fetchData } from '../../httpRequest';
+import useAuth from '../../hooks/useAuth';
 
 export const ItemContext = createContext();
 
@@ -57,6 +58,7 @@ const reducer = (state, action) => {
 const ItemProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
   const navigate = useNavigate();
+  const {token}=useAuth()
 
   const { user, description, scheduleTime, loading, occupation, social_links, img } = state;
 
@@ -155,7 +157,7 @@ const ItemProvider = ({ children }) => {
     fetchData()
       .then((data) => dispatch({ type: "SET_ITEM", payload: data }))
       .catch((error) => console.error("Failed to fetch items:", error));
-  }, [state.likeDislikeStatus]);
+  }, [state.likeDislikeStatus,token]);
 
   const value = {
     postData,
