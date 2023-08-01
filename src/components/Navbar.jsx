@@ -84,7 +84,7 @@ const Navbar = () => {
 
             {isMenuOpen && (
                 <div className="md:hidden absolute top-35 w-full bg-gray-800 z-50">
-                    <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                    <div onClick={()=>setIsMenuOpen(false)} className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
                         <Link
                             to="/"
                             className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
