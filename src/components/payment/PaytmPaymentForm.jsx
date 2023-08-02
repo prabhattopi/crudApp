@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-const Paytmimage = "https://1000logos.net/wp-content/uploads/2021/03/Paytm_Logo.jpg";
 
 const PaytmPaymentForm = () => {
   const [mobileNumber, setMobileNumber] = useState('');

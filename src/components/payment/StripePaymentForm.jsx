@@ -1,7 +1,8 @@
 // src/components/PaymentForm.js
 import React, { useState } from 'react';
 import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
-import axios from 'axios';
+import api from '../../api';
+import { toast } from 'react-toastify';
 
 const StripePaymentForm = () => {
   const [amount, setAmount] = useState(0);
@@ -20,21 +21,32 @@ const StripePaymentForm = () => {
     }
 
     try {
-      const response = await axios.post('/create-payment-intent', { amount: amount*100 });
-      const { clientSecret } = response.data;
-      const result = await stripe.confirmCardPayment(clientSecret, {
+      const response = await api.post('/users/payment/stripe', { amount: amount*100 });
+      const result = await stripe.confirmCardPayment(response.data.clientSecret, {
         payment_method: {
           card: elements.getElement(CardElement),
         },
       });
 
       if (result.error) {
-        console.error('Payment failed:', result.error.message);
+        toast.error("Payment UnSucceesfull", {
+            position: toast.POSITION.TOP_RIGHT, // Change the position of the toast
+            autoClose: 3000, // Auto-close the toast after 3000 milliseconds (3 seconds)
+            hideProgressBar:false, // Hide the progress bar
+          });
       } else {
-        console.log('Payment successful:', result.paymentIntent);
+        toast.success("Payment Succeesfull", {
+            position: toast.POSITION.TOP_RIGHT, // Change the position of the toast
+            autoClose: 3000, // Auto-close the toast after 3000 milliseconds (3 seconds)
+            hideProgressBar:false, // Hide the progress bar
+          });
       }
     } catch (error) {
-      console.error('Error creating payment intent:', error);
+        toast.error("Payment UnSucceesfull", {
+            position: toast.POSITION.TOP_RIGHT, // Change the position of the toast
+            autoClose: 3000, // Auto-close the toast after 3000 milliseconds (3 seconds)
+            hideProgressBar:false, // Hide the progress bar
+          });
     }
   };
 
