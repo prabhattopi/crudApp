@@ -27,8 +27,8 @@ const Members = () => {
   };
 
   return (
-    <div className="py-12 bg-gray-100 h-[calc(100vh-62px)]">
-      <div className="max-w-md mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
+    <div className="sm:py-12 bg-gray-100 h-[calc(100vh-62px)]">
+      <div className="max-w-md mx-auto bg-white shadow-lg sm:rounded-lg overflow-hidden">
         <div className="bg-blue-500 text-white py-4 px-6">
           <h2 className="text-2xl font-semibold">Select Payment Method</h2>
         </div>
