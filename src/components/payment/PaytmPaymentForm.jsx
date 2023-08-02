@@ -1,64 +1,103 @@
-// src/components/PaymentForm.js
 import React, { useState } from 'react';
 import axios from 'axios';
 
+const Paytmimage = "https://1000logos.net/wp-content/uploads/2021/03/Paytm_Logo.jpg";
+
 const PaytmPaymentForm = () => {
+  const [mobileNumber, setMobileNumber] = useState('');
+  const [email, setEmail] = useState('');
   const [amount, setAmount] = useState('');
-  const [paymentInitialized, setPaymentInitialized] = useState(false);
-  const [redirectUrl, setRedirectUrl] = useState('');
-  const [isValidAmount, setIsValidAmount] = useState(true);
+  const [errorMessage, setErrorMessage] = useState('');
 
-  const handlePayment = async () => {
-    try {
-      if (amount <= 0) {
-        setIsValidAmount(false);
-        return;
-      } else {
-        setIsValidAmount(true);
-      }
+  const handlePayment = async (e) => {
+    e.preventDefault();
 
-      const response = await axios.post('/create-payment', { amount });
-      const { redirect_url } = response.data;
-      setRedirectUrl(redirect_url);
-      setPaymentInitialized(true);
-    } catch (error) {
-      alert('Failed to create payment');
+    // Form validation
+    if (amount <= 0) {
+      setErrorMessage('Amount must be greater than 0.');
+      return;
     }
-  };
 
-  const redirectToPaytm = () => {
-    if (paymentInitialized && redirectUrl) {
-      window.location.href = redirectUrl;
+    // Validate mobile number
+    const mobileNumberPattern = /^[0-9]{10}$/;
+    if (!mobileNumberPattern.test(mobileNumber)) {
+      setErrorMessage('Invalid mobile number. Please enter a 10-digit mobile number.');
+      return;
+    }
+
+    // Validate email
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailPattern.test(email)) {
+      setErrorMessage('Invalid email address. Please enter a valid email.');
+      return;
+    }
+
+    // If all validations pass, proceed with payment
+    try {
+      const response = await axios.post('/api/paytm/payment', {
+        mobileNumber,
+        email,
+        amount,
+      });
+      console.log(response.data); 
+      // The response will contain the transaction token
+      // Redirect the user to the Paytm payment page using the received transaction token
+    } catch (error) {
+      console.error('Error while processing the payment:', error);
     }
   };
 
   return (
-    <div className="bg-gray-100 p-6 rounded-md shadow-md">
-      <h2 className="text-2xl font-semibold mb-4">Payment Form</h2>
+    <form onSubmit={handlePayment} className="max-w-md mt-2 p-4 bg-white rounded-lg shadow-lg">
+      <div className="mb-2">
+        <label className="block text-gray-700 font-bold mb-2" htmlFor="mobileNumber">
+          Mobile Number
+        </label>
+        <input
+          type="tel"
+          id="mobileNumber"
+          className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          placeholder="Mobile Number"
+          value={mobileNumber}
+          onChange={(e) => setMobileNumber(e.target.value)}
+        />
+      </div>
       <div className="mb-4">
-        <label className="block mb-1 font-semibold">Amount (INR)</label>
+        <label className="block text-gray-700 font-bold mb-2" htmlFor="email">
+          Email
+        </label>
+        <input
+          type="email"
+          id="email"
+          className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+      </div>
+      <div className="mb-4">
+        <label className="block text-gray-700 font-bold mb-2" htmlFor="amount">
+          Amount
+        </label>
         <input
           type="number"
-          placeholder="Enter amount in INR"
+          id="amount"
+          className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          placeholder="Amount"
           value={amount}
           onChange={(e) => setAmount(e.target.value)}
-          className={`w-full px-4 py-2 border rounded-md focus:outline-none ${
-            isValidAmount ? 'border-blue-500' : 'border-red-500'
-          }`}
         />
-        {!isValidAmount && (
-          <p className="text-red-500 mt-1 text-sm">Min amount should be 1 INR.</p>
-        )}
       </div>
+      {errorMessage && <p className="text-red-500 mb-4">{errorMessage}</p>}
       <button
-        onClick={handlePayment}
-        className="w-full px-4 py-2 bg-blue-500 text-white font-semibold rounded-md hover:bg-blue-600"
+        type="submit"
+        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
       >
-        Pay Now
+        Proceed to Pay
       </button>
-      {redirectToPaytm()}
-    </div>
+    </form>
   );
 };
 
 export default PaytmPaymentForm;
+

@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
-import { FaCreditCard} from 'react-icons/fa';
 import StripePaymentForm from '../components/payment/StripePaymentForm';
 import RazorpayPaymentForm from '../components/payment/RazorpayPaymentForm';
 import PaytmPaymentForm from '../components/payment/PaytmPaymentForm';
+const Paytmimage = "https://1000logos.net/wp-content/uploads/2021/03/Paytm_Logo.jpg";
+const RazorPay = "https://razorpay.com/newsroom-content/uploads/2020/12/output-onlinepngtools-1-1.png";
+const Stripimage = "https://adfetish.com/img/cms/logos_tarjetas_v3.png";
 
 const Members = () => {
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('');
@@ -40,8 +42,7 @@ const Members = () => {
               className="mr-2 form-radio text-blue-500"
             />
             <label htmlFor="stripe" className="text-blue-500 cursor-pointer">
-              <FaCreditCard className="w-6 h-6 mr-1" />
-              Stripe
+            <img src={Stripimage} alt="Stripe" className="w-21 h-12 object-contain" />
             </label>
           </div>
           <div className="flex items-center mb-4">
@@ -54,7 +55,7 @@ const Members = () => {
             />
             <label htmlFor="razorpay" className="text-blue-500 cursor-pointer">
               {/* <FaCreditCardFront className="w-6 h-6 mr-1" /> */}
-              Razorpay
+              <img src={RazorPay} alt="Razorpay" className="w-20 h-13 object-contain" />
             </label>
           </div>
           <div className="flex items-center mb-2">
@@ -66,12 +67,12 @@ const Members = () => {
               className="mr-2 form-radio text-blue-500"
             />
             <label htmlFor="paytm" className="text-blue-500 cursor-pointer">
-              {/* <FaCreditCardBack className="w-6 h-6 mr-1" /> */}
-              Paytm
+              
+            <img src={Paytmimage} alt="Paytm" className="w-20 h-13 object-contain" />
             </label>
           </div>
         </div>
-        <div className="px-6 py-2">{renderPaymentForm()}</div>
+        <div className="px-6 py-2 h-64 overflow-y-auto">{renderPaymentForm()}</div>
       </div>
     </div>
   );
