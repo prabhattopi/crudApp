@@ -28,7 +28,7 @@ const Members = () => {
 
   return (
     <div className="sm:py-12 bg-gray-100 h-[calc(100vh-62px)]">
-      <div className="max-w-md mx-auto bg-white shadow-lg sm:rounded-lg overflow-hidden">
+      <div className="max-w-md h-full mx-auto bg-white shadow-lg sm:rounded-lg overflow-hidden">
         <div className="bg-blue-500 text-white py-4 px-6">
           <h2 className="text-2xl font-semibold">Select Payment Method</h2>
         </div>
@@ -72,7 +72,7 @@ const Members = () => {
             </label>
           </div>
         </div>
-        <div className="px-6 py-2 h-64 overflow-y-auto">{renderPaymentForm()}</div>
+        <div className="px-6 py-2 sm:h-64 overflow-y-auto">{renderPaymentForm()}</div>
       </div>
     </div>
   );
