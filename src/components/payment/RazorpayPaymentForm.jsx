@@ -18,7 +18,7 @@ const RazorpayPaymentForm = () => {
       } else {
         setIsValidAmount(true);
       }
-      console.log("hello razorpay")
+      
       const response = await api.post('/users/payment/razorpay', { amount: amountInPaise,user});
       const { id: order_id } = response.data;
       
@@ -31,7 +31,7 @@ const RazorpayPaymentForm = () => {
         image:
           'https://firebasestorage.googleapis.com/v0/b/image-gallery-8cf2b.appspot.com/o/images%2F1690868684693.png?alt=media&token=bbfdb9ff-204a-4b59-a6d5-05c6d7792c44', // Add your company logo URL here
         order_id,
-        callback_url:`${import.meta.env.VITE_API_URL}users/razorpayverification`,
+        callback_url:`https://backend-mrbv.onrender.com/api/users/razorpayverification`,
         prefill: {
           name: user.email.substring(0,3),
           email: user.email,
