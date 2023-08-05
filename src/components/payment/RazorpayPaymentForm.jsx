@@ -1,6 +1,7 @@
 // src/components/PaymentForm.js
 import React, { useState } from 'react';
-import axios from 'axios';
+import api from '../../api';
+import { toast } from 'react-toastify';
 
 const RazorpayPaymentForm = () => {
   const [amount, setAmount] = useState('');
@@ -16,20 +17,27 @@ const RazorpayPaymentForm = () => {
         setIsValidAmount(true);
       }
 
-      const response = await axios.post('/create-order', { amount: amountInPaise });
+      const response = await api.post('/users/payment/razorpay', { amount: amountInPaise });
       const { id: order_id } = response.data;
+      
       const options = {
-        key: 'YOUR_RAZORPAY_KEY_ID',
+        key: import.meta.env.VITE_RAZORPAY_KEY_ID,
         amount: amountInPaise,
         currency: 'INR',
-        name: 'Your Company Name',
-        description: 'Test Transaction',
+        name: 'IT Walle',
+        description: 'Transaction to became a member',
         image:
           'https://firebasestorage.googleapis.com/v0/b/image-gallery-8cf2b.appspot.com/o/images%2F1690868684693.png?alt=media&token=bbfdb9ff-204a-4b59-a6d5-05c6d7792c44', // Add your company logo URL here
         order_id,
+        callback_url:`${import.meta.env.VITE_API_URL}/users/razorpay/callback`,
         handler: async (response) => {
           // Handle the payment success here
-          alert('Payment successful');
+          toast.success("Payment Succeesfull", {
+            position: toast.POSITION.TOP_RIGHT, // Change the position of the toast
+            autoClose: 3000, // Auto-close the toast after 3000 milliseconds (3 seconds)
+            hideProgressBar:false, // Hide the progress bar
+          });
+          setAmount("")
         },
         prefill: {
           name: 'John Doe',
@@ -40,7 +48,11 @@ const RazorpayPaymentForm = () => {
       const rzp1 = new window.Razorpay(options);
       rzp1.open();
     } catch (error) {
-      alert('Something went wrong');
+        toast.error("Payment UnSucceesfull", {
+            position: toast.POSITION.TOP_RIGHT, // Change the position of the toast
+            autoClose: 3000, // Auto-close the toast after 3000 milliseconds (3 seconds)
+            hideProgressBar:false, // Hide the progress bar
+          });
     }
   };
 

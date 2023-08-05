@@ -40,6 +40,7 @@ const StripePaymentForm = () => {
             autoClose: 3000, // Auto-close the toast after 3000 milliseconds (3 seconds)
             hideProgressBar:false, // Hide the progress bar
           });
+          setAmount(0)
       }
     } catch (error) {
         toast.error("Payment UnSucceesfull", {
