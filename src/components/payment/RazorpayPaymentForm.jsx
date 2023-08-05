@@ -2,9 +2,11 @@
 import React, { useState } from 'react';
 import api from '../../api';
 import { toast } from 'react-toastify';
+import useAuth from '../../hooks/useAuth';
 
 const RazorpayPaymentForm = () => {
   const [amount, setAmount] = useState('');
+  const {user}=useAuth()
   const [isValidAmount, setIsValidAmount] = useState(true);
 
   const handlePayment = async () => {
@@ -17,7 +19,7 @@ const RazorpayPaymentForm = () => {
         setIsValidAmount(true);
       }
 
-      const response = await api.post('/users/payment/razorpay', { amount: amountInPaise });
+      const response = await api.post('/users/payment/razorpay', { amount: amountInPaise,user});
       const { id: order_id } = response.data;
       
       const options = {
@@ -40,8 +42,8 @@ const RazorpayPaymentForm = () => {
           setAmount("")
         },
         prefill: {
-          name: 'John Doe',
-          email: 'johndoe@example.com',
+          name: user.email.substr(0,5),
+          email: user.email,
           contact: '1234567890',
         },
       };
