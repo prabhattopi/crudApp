@@ -20,18 +20,19 @@ const RazorpayPaymentForm = () => {
       }
       
       const response = await api.post('/users/payment/razorpay', { amount: amountInPaise,user});
-      const { id: order_id } = response.data;
+      const {order} = response.data;
+    
       
       const options = {
         key: import.meta.env.VITE_RAZORPAY_KEY_ID,
-        amount: amountInPaise,
+        amount: order.amount,
         currency: 'INR',
         name: 'IT Walle',
         description: 'Transaction to became a member',
         image:
           'https://firebasestorage.googleapis.com/v0/b/image-gallery-8cf2b.appspot.com/o/images%2F1690868684693.png?alt=media&token=bbfdb9ff-204a-4b59-a6d5-05c6d7792c44', // Add your company logo URL here
-        order_id,
-        callback_url:`https://backend-mrbv.onrender.com/api/users/razorpayverification`,
+        order_id:order.id,
+        callback_url:'https://vscode-akble.run-ap-south1.goorm.site/proxy/4000/api/users/razorpayverification',
         prefill: {
           name: user.email.substring(0,3),
           email: user.email,
