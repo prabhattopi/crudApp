@@ -32,7 +32,7 @@ const RazorpayPaymentForm = () => {
         image:
           'https://firebasestorage.googleapis.com/v0/b/image-gallery-8cf2b.appspot.com/o/images%2F1690868684693.png?alt=media&token=bbfdb9ff-204a-4b59-a6d5-05c6d7792c44', // Add your company logo URL here
         order_id:order.id,
-        callback_url:'https://vscode-akble.run-ap-south1.goorm.site/proxy/4000/api/users/razorpayverification',
+        callback_url:'https://backend-mrbv.onrender.com/api/users/razorpayverification',
         prefill: {
           name: user.email.substring(0,3),
           email: user.email,
@@ -42,7 +42,7 @@ const RazorpayPaymentForm = () => {
       const rzp1 = new window.Razorpay(options);
       rzp1.open();
     } catch (error) {
-        toast.error(error.response.data.message||"Payment UnSucceesfull", {
+        toast.error("Payment UnSucceesfull", {
             position: toast.POSITION.TOP_RIGHT, // Change the position of the toast
             autoClose: 3000, // Auto-close the toast after 3000 milliseconds (3 seconds)
             hideProgressBar:false, // Hide the progress bar
