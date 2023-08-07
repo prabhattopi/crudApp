@@ -28,15 +28,13 @@ const Members = () => {
         return null;
     }
   };
-  const referenceId="sdfjsdkfjsdf"
   const handleGo=()=>{
        navigate("/")
-       window.location.reload();
   }
   if(searchQuery.get("reference")){
     return (
         <div className="flex justify-center items-center min-h-[90vh]">
-                <ConfirmPage handleGo={handleGo} referenceId={referenceId}/>
+                <ConfirmPage handleGo={handleGo} referenceId={searchQuery.get("reference")}/>
         </div>
     
     )
