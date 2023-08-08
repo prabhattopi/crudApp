@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { AiOutlineLike, AiOutlineDislike } from "react-icons/ai";
 import { FaGithub, FaLinkedin, FaGlobe } from "react-icons/fa";
 import { IoIosEye } from "react-icons/io";
-import { motion } from "framer-motion";
+import { motion, useCycle } from "framer-motion";
 import api from "../api";
 import { toast } from "react-toastify";
 import useAuth from "../hooks/useAuth";
@@ -19,7 +19,7 @@ const GetData = () => {
   const [loading, setLoading] = useState(false);
   const { user } = useAuth();
   const { handleLikeDislike,dispatch,state } = useItem();
-
+  const [waveIndex, cycleWave] = useCycle(0, 1, 2); // Create a cyclic animation sequence
   const navigate = useNavigate();
 
   const handleRedirect = (id) => {
@@ -157,15 +157,27 @@ const GetData = () => {
                 </button>
               </div>
               <div className="flex space-x-2">
-                {item.social_links?.map((e) => (
-                  <a
+                {item.social_links?.map((e,eIndex) => (
+                    <motion.a
                     key={e._id}
                     href={e.url}
                     target="_blank"
                     rel="noopener noreferrer"
+                    initial={{ opacity: 0, x: -50, y: -50 }} // Initial position and opacity
+                    animate={[
+                      { opacity: 1, y: 50 }, // Intermediate state 1
+                      { opacity: 0, y: 50 }, // Intermediate state 2
+                      { opacity: 1, x: 0, y: 0 }, // Final state
+                    ]}
+                    transition={{
+                      delay: index * 0.7 + eIndex * 0.1, // Delay based on card and link index
+                      duration: 0.5,
+                    }} // Delay and duration for link entrance animation
+                    onTap={() => cycleWave()} // Trigger wave animation on tap
                   >
                     {iconsObj[e.name]}
-                  </a>
+                  </motion.a>
+                  
                 ))}
               </div>
               {user._id === item.users.toString() && (
