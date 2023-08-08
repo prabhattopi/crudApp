@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { AiOutlineLike, AiOutlineDislike } from "react-icons/ai";
 import { FaGithub, FaLinkedin, FaGlobe } from "react-icons/fa";
 import { IoIosEye } from "react-icons/io";
+import { motion } from "framer-motion";
 import api from "../api";
 import { toast } from "react-toastify";
 import useAuth from "../hooks/useAuth";
@@ -64,11 +65,16 @@ const GetData = () => {
   return (
     <div className="py-4 my-2">
       <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-3 gap-8">
-        {state.items?.map((item) => (
-          <div
-            key={item._id}
-            className="bg-white shadow-md rounded-lg p-4 flex flex-col border-2 border-gray-200 hover:border-blue-500 relative"
-          >
+        {state.items?.map((item,index) => (
+         <motion.div
+         key={item._id}
+         initial={{ opacity: 0, x: -100,transition:{delay: index * 0.5, duration: 0.5 } }} // Initial position and opacity
+         animate={{ opacity: 1, x: 0,transition:{delay: index * 0.5, duration: 0.5 } }} // Final position and opacity
+        //  transition={{ delay: index * 0.5, duration: 0.5 }} // Delay and duration for entrance animation
+         className="bg-white shadow-md rounded-lg p-4 flex flex-col border-2 border-gray-200 hover:border-blue-500 relative"
+         whileHover={{ scale: 1.05, transition: { duration: 0.2,delay:0.1 } }} // Apply scaling effect on hover with a different duration
+         whileTap={{ scale: 0.95, transition: { duration: 0.2,delay:0.1 } }} // Apply scaling effect on tap with a different duration
+       >
             <div className="flex items-center justify-around h-6 w-12 rounded-lg bg-gray-500 text-white text-sm">
               <IoIosEye size={16} />
               <span className="font-bold">{item.views}</span>
@@ -182,7 +188,7 @@ const GetData = () => {
                 </div>
               )}
             </div>
-          </div>
+          </motion.div>
         ))}
       </div>
     </div>
