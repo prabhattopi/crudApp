@@ -20,7 +20,8 @@ const initialState = {
   scheduleTime: '',
   likeDislikeStatus: false,
   loading: false,
-  singleData: {}
+  singleData: {},
+  searchQuery:""
 };
 
 const reducer = (state, action) => {
@@ -29,6 +30,8 @@ const reducer = (state, action) => {
       return { ...state, items: action.payload };
     case 'SET_USER':
       return { ...state, user: action.payload };
+      case 'SET_QUERY':
+      return { ...state, searchQuery: action.payload };
     case 'SET_DESCRIPTION':
       return { ...state, description: action.payload };
     case 'SET_OCCUPATION':
@@ -154,10 +157,10 @@ const ItemProvider = ({ children }) => {
 
 
   useEffect(() => {
-    fetchData()
+    fetchData(state.searchQuery)
       .then((data) => dispatch({ type: "SET_ITEM", payload: data }))
       .catch((error) => console.error("Failed to fetch items:", error));
-  }, [state.likeDislikeStatus,token]);
+  }, [state.likeDislikeStatus,token,state.searchQuery]);
 
   const value = {
     postData,

@@ -1,24 +1,21 @@
 
-import { useState} from "react";
+import { useState, useEffect} from "react";
 import useItem from "../hooks/useItem";
 import GetData from "./GetData";
 import Sidebar from "./Sidebar";
 import {AiOutlineSearch} from "react-icons/ai";
 import { RxCross2 } from "react-icons/rx"
+import api from "../api";
 
 
 const Home = () => {
-  const [searchQuery, setSearchQuery] = useState("");
-    const {state}=useItem()
 
-     const handleSearchInputChange = (event) => {
-        setSearchQuery(event.target.value);
-    };
+    const {state,dispatch}=useItem()
+   
 
     const handleSearchSubmit = (event) => {
         event.preventDefault();
         // Perform search action using the searchQuery value
-        console.log("Search query:", searchQuery);
     };
   return (
     <>
@@ -33,20 +30,20 @@ const Home = () => {
             >
               <input
                 type="text"
-                value={searchQuery}
-                onChange={handleSearchInputChange}
+                value={state.searchQuery}
+                onChange={(e)=>dispatch({type:"SET_QUERY",payload:e.target.value})}
                 className="w-full px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white"
                 placeholder="Search..."
               />
               <button
                 type="submit"
-                disabled={!searchQuery}
-                onClick={() => setSearchQuery("")}
+                disabled={!state.searchQuery}
+                onClick={() =>dispatch({type:"SET_QUERY",payload:""})}
                 className={`${
-                  !searchQuery && "text-gray-300"
+                  !state.searchQuery && "text-gray-300"
                 } absolute right-2 top-1 ml-2 px-4 py-2 text-black rounded-md`}
               >
-                {!searchQuery ? (
+                {!state.searchQuery ? (
                   <AiOutlineSearch size={20} className="" />
                 ) : (
                   <RxCross2 size={20} />
