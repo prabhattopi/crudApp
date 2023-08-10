@@ -68,8 +68,19 @@ const GetData = () => {
         {state.items?.map((item,index) => (
          <motion.div
          key={item._id}
-         initial={{ opacity: 0, x: -100,transition:{delay: index * 0.5, duration: 0.5 } }} // Initial position and opacity
-         animate={{ opacity: 1, x: 0,transition:{delay: index * 0.5, duration: 0.5 } }} // Final position and opacity
+        //  initial={{ opacity: 0, x: -100,transition:{delay: index * 0.5, duration: 0.5 } }} // Initial position and opacity
+        // initial
+        //  animate={{ opacity: 1, x: 0,transition:{delay: index * 0.5, duration: 0.5 } }} // Final position and opacity
+        //  whileInView="visible"
+        //  viewport={{ once: true, amount: 0.5 }}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.5 }}
+        // transition={{ delay: 0.2, duration: 0.5 }}
+        variants={{
+          hidden: { opacity: 0, x: -50, transition:{delay:0.5, duration: 0.5 } },
+          visible: { opacity: 1, x: 0,transition:{delay: 0.5, duration: 0.5 } },
+        }}
         //  transition={{ delay: index * 0.5, duration: 0.5 }} // Delay and duration for entrance animation
          className="bg-white shadow-md rounded-lg p-4 flex flex-col border-2 border-gray-200 hover:border-blue-500 relative"
          whileHover={{ scale: 1.05, transition: { duration: 0.2,delay:0.1 } }} // Apply scaling effect on hover with a different duration
@@ -163,17 +174,17 @@ const GetData = () => {
                     href={e.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    initial={{ opacity: 0, x: -50, y: -50 }} // Initial position and opacity
-                    animate={[
-                      { opacity: 1, y: 50 }, // Intermediate state 1
-                      { opacity: 0, y: 50 }, // Intermediate state 2
-                      { opacity: 1, x: 0, y: 0 }, // Final state
-                    ]}
-                    transition={{
-                      delay: index * 0.7 + eIndex * 0.1, // Delay based on card and link index
-                      duration: 0.5,
-                    }} // Delay and duration for link entrance animation
-                    onTap={() => cycleWave()} // Trigger wave animation on tap
+                    // initial={{ opacity: 0, x: -50, y: -50 }} // Initial position and opacity
+                    // animate={[
+                    //   { opacity: 1, y: 50 }, // Intermediate state 1
+                    //   { opacity: 0, y: 50 }, // Intermediate state 2
+                    //   { opacity: 1, x: 0, y: 0 }, // Final state
+                    // ]}
+                    // transition={{
+                    //   delay: index * 0.7 + eIndex * 0.1, // Delay based on card and link index
+                    //   duration: 0.5,
+                    // }} // Delay and duration for link entrance animation
+                    // onTap={() => cycleWave()} // Trigger wave animation on tap
                   >
                     {iconsObj[e.name]}
                   </motion.a>
