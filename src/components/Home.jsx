@@ -6,6 +6,7 @@ import Sidebar from "./Sidebar";
 import {AiOutlineSearch} from "react-icons/ai";
 import { RxCross2 } from "react-icons/rx"
 import api from "../api";
+import BGImage from "../assets/bg.png"
 
 
 const Home = () => {
@@ -21,7 +22,7 @@ const Home = () => {
     <>
       <div className="flex flex-col md:flex-row">
         {/* <Sidebar /> */}
-        <div className="flex flex-col w-full  gap-2 bg-sky-800 h-[calc(100vh-62px)]">
+        <div className="flex  flex-col w-full bg-cover bg-center gap-2 h-[calc(100vh-62px)] bg-sky-900">
           <div className="flex justify-end pt-4 mr-8">
             <div className="hidden"></div>
             <form
@@ -32,7 +33,7 @@ const Home = () => {
                 type="text"
                 value={state.searchQuery}
                 onChange={(e)=>dispatch({type:"SET_QUERY",payload:e.target.value})}
-                className="w-full px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white"
+                className="w-full px-4 py-2 text-white outline-none bg-transparent border-b border-white"
                 placeholder="Search..."
               />
               <button

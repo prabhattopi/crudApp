@@ -64,9 +64,10 @@ const GetData = () => {
 
   return (
     <div className="py-4 my-2">
-      <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-8 2xl:gap-x-16">
         {state.items?.map((item,index) => (
          <motion.div
+        //  style={{ backgroundImage: 'url("https://img.freepik.com/free-vector/purple-abstract-background_1340-17009.jpg")' }}
          key={item._id}
         //  initial={{ opacity: 0, x: -100,transition:{delay: index * 0.5, duration: 0.5 } }} // Initial position and opacity
         // initial
@@ -82,7 +83,7 @@ const GetData = () => {
           visible: { opacity: 1, x: 0,transition:{delay: 0.5, duration: 0.5 } },
         }}
         //  transition={{ delay: index * 0.5, duration: 0.5 }} // Delay and duration for entrance animation
-         className="bg-white shadow-md rounded-lg p-4 flex flex-col border-2 border-gray-200 hover:border-blue-500 relative"
+         className="bg-transparent text-gray-300 opacity-4 bg-cover bg-center shadow-2xl rounded-lg p-4 flex flex-col relative"
          whileHover={{ scale: 1.05, transition: { duration: 0.2,delay:0.1 } }} // Apply scaling effect on hover with a different duration
          whileTap={{ scale: 0.95, transition: { duration: 0.2,delay:0.1 } }} // Apply scaling effect on tap with a different duration
        >
