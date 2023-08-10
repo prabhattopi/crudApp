@@ -22,7 +22,7 @@ const Home = () => {
       <div className="flex flex-col md:flex-row">
         {/* <Sidebar /> */}
         <div className="flex flex-col w-full  gap-2 bg-sky-800 h-[calc(100vh-62px)]">
-          <div className="flex justify-end pt-4 mr-4">
+          <div className="flex justify-end pt-4 mr-8">
             <div className="hidden"></div>
             <form
               onSubmit={handleSearchSubmit}
@@ -52,7 +52,7 @@ const Home = () => {
             </form>
           </div>
 
-          <div className="px-4 pb-4 flex-grow overflow-y-auto max-h-80vh">
+          <div className="px-8 pb-4 flex-grow overflow-y-auto max-h-80vh">
             {state.items.length > 0 ? (
               <GetData />
             ) : (
