@@ -20,7 +20,7 @@ const Home = () => {
   return (
     <>
       <div className="flex flex-col md:flex-row">
-        <Sidebar />
+        {/* <Sidebar /> */}
         <div className="flex flex-col w-full  gap-2 bg-sky-800 h-[calc(100vh-62px)]">
           <div className="flex justify-end pt-4 mr-4">
             <div className="hidden"></div>
