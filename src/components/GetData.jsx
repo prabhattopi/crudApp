@@ -143,7 +143,7 @@ const GetData = () => {
                         : ""
                     }`}
                   />
-                  <span className="text-black">{item.like.length || 0}</span>
+                  <span className="text-gray-300">{item.like.length || 0}</span>
                 </button>
                 <button
                   disabled={
@@ -165,7 +165,7 @@ const GetData = () => {
                         : ""
                     }`}
                   />
-                  <span className="text-black">{item.dislike.length || 0}</span>
+                  <span className="text-gray-300">{item.dislike.length || 0}</span>
                 </button>
               </div>
               <div className="flex space-x-2">
