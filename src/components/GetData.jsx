@@ -105,6 +105,9 @@ const GetData = () => {
                   src={item.img}
                   alt="Image"
                   className="rounded-full h-16 w-16 object-cover"
+                  onError={(e) => {
+                    e.target.src = "https://firebasestorage.googleapis.com/v0/b/image-gallery-8cf2b.appspot.com/o/images%2F1689583584637.webp?alt=media&token=5320ad10-a9d0-491b-8f9f-130cffdaa3b2";
+                  }}
                 />
               </div>
             </div>
