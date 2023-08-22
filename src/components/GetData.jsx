@@ -4,11 +4,13 @@ import { AiOutlineLike, AiOutlineDislike } from "react-icons/ai";
 import { FaGithub, FaLinkedin, FaGlobe } from "react-icons/fa";
 import { IoIosEye } from "react-icons/io";
 import { motion, useCycle } from "framer-motion";
+import InfiniteScroll from 'react-infinite-scroll-component';
 import api from "../api";
 import { toast } from "react-toastify";
 import useAuth from "../hooks/useAuth";
 import useItem from "../hooks/useItem";
-
+import { useEffect } from "react";
+import { throttle } from 'lodash';
 export const iconsObj = {
   github: <FaGithub size={20} />,
   linkedin: <FaLinkedin size={20} />,
@@ -18,7 +20,7 @@ export const iconsObj = {
 const GetData = () => {
   const [loading, setLoading] = useState(false);
   const { user } = useAuth();
-  const { handleLikeDislike,dispatch,state } = useItem();
+  const { handleLikeDislike,dispatch,state,fetchMoreData } = useItem();
   const [waveIndex, cycleWave] = useCycle(0, 1, 2); // Create a cyclic animation sequence
   const navigate = useNavigate();
 
@@ -62,9 +64,32 @@ const GetData = () => {
 
 
 
+  // useEffect(() => {
+  //   window.addEventListener("scroll", throttledHandleScroll);
+  
+  //   return () => {
+  //     window.removeEventListener("scroll", throttledHandleScroll);
+  //   };
+  // }, [state.items]);
+  
+  // const handleScroll = () => {
+  //   if (state.items.length > 0) {
+  //     if (
+  //       window.innerHeight + window.scrollY >=
+  //       document.body.offsetHeight - 100
+  //     ) {
+     
+  //       // Show loading indicator
+  //       // dispatch({ type: "SET_LOADING", payload: true });
+  //     }
+  //   }
+  // };
+  // const throttledHandleScroll = throttle(handleScroll, 300);
+
   return (
     <div className="py-4 my-2">
       <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-8 2xl:gap-x-16">
+    
         {state.items?.map((item,index) => (
          <motion.div
         //  style={{ backgroundImage: 'url("https://img.freepik.com/free-vector/purple-abstract-background_1340-17009.jpg")' }}
@@ -216,7 +241,9 @@ const GetData = () => {
               )}
             </div>
           </motion.div>
+            
         ))}
+          
       </div>
     </div>
   )

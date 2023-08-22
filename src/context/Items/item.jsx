@@ -21,15 +21,22 @@ const initialState = {
   likeDislikeStatus: false,
   loading: false,
   singleData: {},
-  searchQuery:""
+  searchQuery:"",
+  offSet:0,
+  hasmore:true
 };
 
 const reducer = (state, action) => {
   switch (action.type) {
     case 'SET_ITEM':
       return { ...state, items: action.payload };
+    case 'APPEND_ITEM':
+      return { ...state, items: [...state.items,...action.payload] };  
+
     case 'SET_USER':
       return { ...state, user: action.payload };
+    case 'SET_HASHMORE':
+      return { ...state, hasmore: action.payload };  
       case 'SET_QUERY':
       return { ...state, searchQuery: action.payload };
     case 'SET_DESCRIPTION':
@@ -46,6 +53,8 @@ const reducer = (state, action) => {
       return { ...state, likeDislikeStatus: !state.likeDislikeStatus };
     case 'SET_SINGLE':
       return { ...state, singleData: action.payload };
+    case 'SET_OFFSETS':
+      return { ...state, offSet:action.payload };  
     case "REMOVE_SINGLE":
       return { ...state, singleData: {} }
 
@@ -156,11 +165,33 @@ const ItemProvider = ({ children }) => {
   const throttledHandleLikeDislike = throttle(handleLikeDislike, 1000);
 
 
+
+
   useEffect(() => {
     fetchData(state.searchQuery)
-      .then((data) => dispatch({ type: "SET_ITEM", payload: data }))
+      .then((data) => dispatch({ type: "SET_ITEM", payload: data.items }))
       .catch((error) => console.error("Failed to fetch items:", error));
   }, [state.likeDislikeStatus,token,state.searchQuery]);
+ 
+
+  const fetchMoreData = async () => {
+    try {
+      // Fetch additional items with a new offset
+    
+      const additionalItems = await fetchData("",state.offSet+5,5);
+
+      // Append the new items to the existing items in the state
+      dispatch({ type: 'APPEND_ITEM', payload: additionalItems.items });
+      // Update the offset
+      dispatch({ type: 'SET_OFFSETS', payload: state.offSet + 5 });
+      dispatch({type:"SET_HASHMORE",payload:additionalItems.hasmore})
+    } catch (error) {
+      console.error('Failed to fetch items:', error);
+    }
+  };
+
+
+
 
   const value = {
     postData,
@@ -173,7 +204,8 @@ const ItemProvider = ({ children }) => {
     scheduleTime,
     dispatch,
     state,
-    handleLikeDislike: throttledHandleLikeDislike
+    handleLikeDislike: throttledHandleLikeDislike,
+    fetchMoreData
   };
 
   return <ItemContext.Provider value={value}>{children}</ItemContext.Provider>;

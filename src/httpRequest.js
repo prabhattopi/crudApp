@@ -1,9 +1,9 @@
 import moment from 'moment';
 import api from './api';
 
-const fetchData = async (query="") => {
+const fetchData = async (query="",offset=0,limit=5) => {
   try {
-    const response = await api.get(`/items?user=${query}`,{
+    const response = await api.get(`/items?user=${query}&offset=${offset}&limit=${limit}`,{
       headers: {
         Authorization: `Bearer ${localStorage.getItem('it_wale_token')}`,
       },
@@ -16,7 +16,7 @@ const fetchData = async (query="") => {
       // Compare year, month, day, hour, and minute of the two timestamps
       return scheduleTime.isSameOrBefore(currentTimestamp, 'minute');
     });
-    return timeData;
+    return {items:timeData,hasmore:response.data.hasmore};
   } catch (error) {
     console.error('Failed to fetch data:', error);
     throw error;
