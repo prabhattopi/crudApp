@@ -17,6 +17,7 @@ export const iconsObj = {
   portfolio: <FaGlobe size={20} />,
 };
 
+
 const GetData = () => {
   const [loading, setLoading] = useState(false);
   const { user } = useAuth();
@@ -86,10 +87,33 @@ const GetData = () => {
   // };
   // const throttledHandleScroll = throttle(handleScroll, 300);
 
+  const [animateOnce, setAnimateOnce] = useState(false);
+
+  useEffect(() => {
+    // Set animateOnce to true when the component mounts
+    setAnimateOnce(true);
+  }, []);
+
   return (
     <div className="py-4 my-2">
-      <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-8 2xl:gap-x-16">
-    
+      
+      <InfiniteScroll
+      className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-8 2xl:gap-x-16"
+                    dataLength={state.items.length}
+                    next={fetchMoreData}
+                    hasMore={state.hasmore} // You can set this to a condition based on your data
+                    loader={<div className="flex items-center justify-center bg-cover bg-center gap-2 bg-sky-900">
+                      <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-white"></div>
+                    </div>}
+                    endMessage={
+                      <div className="flex items-center justify-center bg-cover bg-center gap-2 bg-sky-900">
+                      <div className="text-white">Yeah that's all!</div>
+                    </div>
+                    }
+                    // // inverse={true} //
+                    scrollableTarget="scrollableDiv"
+            
+                  >
         {state.items?.map((item,index) => (
          <motion.div
         //  style={{ backgroundImage: 'url("https://img.freepik.com/free-vector/purple-abstract-background_1340-17009.jpg")' }}
@@ -99,13 +123,13 @@ const GetData = () => {
         //  animate={{ opacity: 1, x: 0,transition:{delay: index * 0.5, duration: 0.5 } }} // Final position and opacity
         //  whileInView="visible"
         //  viewport={{ once: true, amount: 0.5 }}
-        initial="hidden"
+        initial={animateOnce ? 'hidden' : 'visible'}
         whileInView="visible"
         viewport={{ once: true, amount: 0.5 }}
         // transition={{ delay: 0.2, duration: 0.5 }}
         variants={{
-          hidden: { opacity: 0, x: -50, transition:{delay:0.5, duration: 0.5 } },
-          visible: { opacity: 1, x: 0,transition:{delay: 0.5, duration: 0.5 } },
+          hidden: { opacity: 0, x: -50},
+          visible: { opacity: 1, x: 0},
         }}
         //  transition={{ delay: index * 0.5, duration: 0.5 }} // Delay and duration for entrance animation
          className="bg-transparent text-gray-300 opacity-4 bg-cover bg-center shadow-2xl rounded-lg p-4 flex flex-col relative"
@@ -239,12 +263,15 @@ const GetData = () => {
                   </button>
                 </div>
               )}
+      
             </div>
+        
           </motion.div>
             
         ))}
-          
-      </div>
+            </InfiniteScroll>
+
+    
     </div>
   )
 };

@@ -21,15 +21,7 @@ const Home = () => {
   };
   return (
     <>
-      <InfiniteScroll
-        dataLength={state.items.length}
-        next={fetchMoreData}
-        hasMore={state.hasmore} // You can set this to a condition based on your data
-        loader={<div className="flex items-center justify-center bg-cover bg-center gap-2 h-[calc(100vh-62px)] bg-sky-900">
-          <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-white"></div>
-        </div>}
-
-      >
+    
         <div className="flex flex-col md:flex-row">
           {/* <Sidebar /> */}
           <div className="flex  flex-col w-full bg-cover bg-center gap-2 h-[calc(100vh-62px)] bg-sky-900">
@@ -61,11 +53,14 @@ const Home = () => {
                 </button>
               </form>
             </div>
-
-            <div className="px-4 md:px-8 pb-4 flex-grow overflow-y-auto max-h-80vh">
-
+           
+            <div id="scrollableDiv" className="px-4 md:px-8 pb-4 flex-grow overflow-y-auto max-h-80vh">
+        
               {state.items.length > 0 ? (
+                   
                 <GetData />
+           
+ 
               ) : (
                 <div className="flex flex-col justify-center items-center h-full text-white text-3xl sm:text-1xl">
                   <h3 className="mb-4 text-center">
@@ -74,13 +69,15 @@ const Home = () => {
                   <p className="text-center">Or there's no Data</p>
                 </div>
               )}
+    
 
             </div>
 
 
           </div>
         </div>
-      </InfiniteScroll>
+    
+    
     </>
   )
 };

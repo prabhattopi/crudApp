@@ -108,7 +108,7 @@ const ItemProvider = ({ children }) => {
         });
 
       if (response.status === 201) {
-        toast.success(response.data || 'Post created successfully', {
+        toast.success(response.data.message || 'Post created successfully', {
           position: toast.POSITION.TOP_RIGHT,
           autoClose: 3000,
           hideProgressBar: false,
@@ -116,13 +116,13 @@ const ItemProvider = ({ children }) => {
 
 
         fetchData()
-          .then((data) => dispatch({ type: "SET_ITEM", payload: data }))
+          .then((data) => dispatch({ type: "APPEND_ITEM", payload: data.items }))
           .catch((error) => console.error("Failed to fetch items:", error));
         dispatch({ type: 'RESET_FIELDS' });
 
         navigate('/');
       } else {
-        toast.error(response.data || 'Failed to create Post', {
+        toast.error(response.data.message || 'Failed to create Post', {
           position: toast.POSITION.TOP_RIGHT,
           autoClose: 3000,
           hideProgressBar: false,
@@ -171,6 +171,11 @@ const ItemProvider = ({ children }) => {
     fetchData(state.searchQuery)
       .then((data) => dispatch({ type: "SET_ITEM", payload: data.items }))
       .catch((error) => console.error("Failed to fetch items:", error));
+
+
+      return ()=>{
+        dispatch({type:"RESET_FIELDS"})
+      }
   }, [state.likeDislikeStatus,token,state.searchQuery]);
  
 
@@ -178,12 +183,12 @@ const ItemProvider = ({ children }) => {
     try {
       // Fetch additional items with a new offset
     
-      const additionalItems = await fetchData("",state.offSet+5,5);
+      const additionalItems = await fetchData("",state.offSet+10,10);
 
       // Append the new items to the existing items in the state
       dispatch({ type: 'APPEND_ITEM', payload: additionalItems.items });
       // Update the offset
-      dispatch({ type: 'SET_OFFSETS', payload: state.offSet + 5 });
+      dispatch({ type: 'SET_OFFSETS', payload: state.offSet + 10 });
       dispatch({type:"SET_HASHMORE",payload:additionalItems.hasmore})
     } catch (error) {
       console.error('Failed to fetch items:', error);
