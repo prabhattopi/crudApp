@@ -176,7 +176,7 @@ const ItemProvider = ({ children }) => {
       return ()=>{
         dispatch({type:"RESET_FIELDS"})
       }
-  }, [state.likeDislikeStatus,token,state.searchQuery]);
+  }, [state.likeDislikeStatus,token]);
  
 
   const fetchMoreData = async () => {

@@ -87,12 +87,12 @@ const GetData = () => {
   // };
   // const throttledHandleScroll = throttle(handleScroll, 300);
 
-  const [animateOnce, setAnimateOnce] = useState(false);
+  // const [animateOnce, setAnimateOnce] = useState(false);
 
-  useEffect(() => {
-    // Set animateOnce to true when the component mounts
-    setAnimateOnce(true);
-  }, []);
+  // useEffect(() => {
+  //   // Set animateOnce to true when the component mounts
+  //   setAnimateOnce(true);
+  // }, []);
 
   return (
     <div className="py-4 my-2">
@@ -123,7 +123,7 @@ const GetData = () => {
         //  animate={{ opacity: 1, x: 0,transition:{delay: index * 0.5, duration: 0.5 } }} // Final position and opacity
         //  whileInView="visible"
         //  viewport={{ once: true, amount: 0.5 }}
-        initial={animateOnce ? 'hidden' : 'visible'}
+        // initial={animateOnce ? 'hidden' : 'visible'}
         whileInView="visible"
         viewport={{ once: true, amount: 0.5 }}
         // transition={{ delay: 0.2, duration: 0.5 }}

@@ -8,6 +8,7 @@ import { RxCross2 } from "react-icons/rx"
 import api from "../api";
 import BGImage from "../assets/bg.png"
 import InfiniteScroll from "react-infinite-scroll-component";
+import SearchBox from "./SearchBox";
 
 
 const Home = () => {
@@ -25,7 +26,7 @@ const Home = () => {
         <div className="flex flex-col md:flex-row">
           {/* <Sidebar /> */}
           <div className="flex  flex-col w-full bg-cover bg-center gap-2 h-[calc(100vh-62px)] bg-sky-900">
-            <div className="flex justify-end pt-4 mr-4 md:mr-8">
+            <div className="flex justify-end pt-4 mr-4 md:mr-8 relative">
               <div className="hidden"></div>
               <form
                 onSubmit={handleSearchSubmit}
@@ -38,12 +39,13 @@ const Home = () => {
                   className="w-full px-4 py-2 text-white outline-none bg-transparent border-b border-white"
                   placeholder="Search..."
                 />
+               
                 <button
                   type="submit"
                   disabled={!state.searchQuery}
                   onClick={() => dispatch({ type: "SET_QUERY", payload: "" })}
                   className={`${!state.searchQuery && "text-gray-300"
-                    } absolute right-2 top-1 ml-2 px-4 py-2 text-black rounded-md`}
+                    } absolute right-2 top-1 ml-2 px-4 py-2 text-gray-300 rounded-md`}
                 >
                   {!state.searchQuery ? (
                     <AiOutlineSearch size={20} className="" />
@@ -52,6 +54,11 @@ const Home = () => {
                   )}
                 </button>
               </form>
+             
+              {state.searchQuery&&<SearchBox/>}
+              
+             
+     
             </div>
            
             <div id="scrollableDiv" className="px-4 md:px-8 pb-4 flex-grow overflow-y-auto max-h-80vh">
