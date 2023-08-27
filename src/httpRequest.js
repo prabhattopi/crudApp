@@ -1,9 +1,9 @@
 import moment from 'moment';
 import api from './api';
 
-const fetchData = async (query="",offset=0,limit=10) => {
+const fetchData = async (offset=0,limit=10) => {
   try {
-    const response = await api.get(`/items?user=${query}&offset=${offset}&limit=${limit}`,{
+    const response = await api.get(`/items?offset=${offset}&limit=${limit}`,{
       headers: {
         Authorization: `Bearer ${localStorage.getItem('it_wale_token')}`,
       },

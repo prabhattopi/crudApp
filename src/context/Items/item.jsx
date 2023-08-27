@@ -23,7 +23,8 @@ const initialState = {
   singleData: {},
   searchQuery:"",
   offSet:0,
-  hasmore:true
+  hasmore:true,
+  searchData:[]
 };
 
 const reducer = (state, action) => {
@@ -35,6 +36,8 @@ const reducer = (state, action) => {
 
     case 'SET_USER':
       return { ...state, user: action.payload };
+    case 'SET_SEARCH_DATA':
+        return { ...state, searchData: action.payload };   
     case 'SET_HASHMORE':
       return { ...state, hasmore: action.payload };  
       case 'SET_QUERY':
@@ -168,7 +171,7 @@ const ItemProvider = ({ children }) => {
 
 
   useEffect(() => {
-    fetchData(state.searchQuery)
+    fetchData()
       .then((data) => dispatch({ type: "SET_ITEM", payload: data.items }))
       .catch((error) => console.error("Failed to fetch items:", error));
 
@@ -177,13 +180,48 @@ const ItemProvider = ({ children }) => {
         dispatch({type:"RESET_FIELDS"})
       }
   }, [state.likeDislikeStatus,token]);
+
+  useEffect(() => {
+    let isCurrent=true
+    let setSearchData=async(query="")=>{
+      dispatch({type:"SET_LOADING",payload:true})
+     try{
+      let response=await api.get(`/items/search?user=${query}`,{
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('it_wale_token')}`,
+        },
+      })
+      dispatch({type:"SET_SEARCH_DATA",payload:response.data.items})
+
+     }
+     catch(err){
+       console.log(err)
+     }
+     dispatch({type:"SET_LOADING",payload:false})
+
+    }
+
+    if(isCurrent&&state.searchQuery){
+      setSearchData(state.searchQuery)
+    }
+
+
+    return ()=>{
+      isCurrent=false
+      dispatch({type:'SET_SEARCH_DATA',payload:[]})
+    }
+
+    
+  }, [state.searchQuery]);
+ 
+
  
 
   const fetchMoreData = async () => {
     try {
       // Fetch additional items with a new offset
     
-      const additionalItems = await fetchData("",state.offSet+10,10);
+      const additionalItems = await fetchData(state.offSet+10,10);
 
       // Append the new items to the existing items in the state
       dispatch({ type: 'APPEND_ITEM', payload: additionalItems.items });
