@@ -21,10 +21,10 @@ const initialState = {
   likeDislikeStatus: false,
   loading: false,
   singleData: {},
-  searchQuery:"",
-  offSet:0,
-  hasmore:true,
-  searchData:[]
+  searchQuery: "",
+  offSet: 0,
+  hasmore: true,
+  searchData: []
 };
 
 const reducer = (state, action) => {
@@ -32,15 +32,17 @@ const reducer = (state, action) => {
     case 'SET_ITEM':
       return { ...state, items: action.payload };
     case 'APPEND_ITEM':
-      return { ...state, items: [...state.items,...action.payload] };  
+      return { ...state, items: [...state.items, ...action.payload] };
+    case "PUT_ITEM":
+      return { ...state, items: state.items.map(e => e._id == action.payload._id ? { ...e, ...action.payload } : e) }
 
     case 'SET_USER':
       return { ...state, user: action.payload };
     case 'SET_SEARCH_DATA':
-        return { ...state, searchData: action.payload };   
+      return { ...state, searchData: action.payload };
     case 'SET_HASHMORE':
-      return { ...state, hasmore: action.payload };  
-      case 'SET_QUERY':
+      return { ...state, hasmore: action.payload };
+    case 'SET_QUERY':
       return { ...state, searchQuery: action.payload };
     case 'SET_DESCRIPTION':
       return { ...state, description: action.payload };
@@ -57,7 +59,7 @@ const reducer = (state, action) => {
     case 'SET_SINGLE':
       return { ...state, singleData: action.payload };
     case 'SET_OFFSETS':
-      return { ...state, offSet:action.payload };  
+      return { ...state, offSet: action.payload };
     case "REMOVE_SINGLE":
       return { ...state, singleData: {} }
 
@@ -73,7 +75,7 @@ const reducer = (state, action) => {
 const ItemProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
   const navigate = useNavigate();
-  const {token}=useAuth()
+  const { token } = useAuth()
 
   const { user, description, scheduleTime, loading, occupation, social_links, img } = state;
 
@@ -150,7 +152,7 @@ const ItemProvider = ({ children }) => {
         },
       })
       if (res.status == "200") {
-        dispatch({ type: "SET_LIKE_DISLIKE" })
+        dispatch({ type: "PUT_ITEM", payload: res.data.item })
       }
 
     }
@@ -166,68 +168,59 @@ const ItemProvider = ({ children }) => {
   // }
 
   const throttledHandleLikeDislike = throttle(handleLikeDislike, 1000);
-
-
-
-
   useEffect(() => {
     fetchData()
       .then((data) => dispatch({ type: "SET_ITEM", payload: data.items }))
       .catch((error) => console.error("Failed to fetch items:", error));
-
-
-      return ()=>{
-        dispatch({type:"RESET_FIELDS"})
-      }
-  }, [state.likeDislikeStatus,token]);
+  }, [token]);
 
   useEffect(() => {
-    let isCurrent=true
-    let setSearchData=async(query="")=>{
-      dispatch({type:"SET_LOADING",payload:true})
-     try{
-      let response=await api.get(`/items/search?user=${query}`,{
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('it_wale_token')}`,
-        },
-      })
-      dispatch({type:"SET_SEARCH_DATA",payload:response.data.items})
+    let isCurrent = true
+    let setSearchData = async (query = "") => {
+      dispatch({ type: "SET_LOADING", payload: true })
+      try {
+        let response = await api.get(`/items/search?user=${query}`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('it_wale_token')}`,
+          },
+        })
+        dispatch({ type: "SET_SEARCH_DATA", payload: response.data.items })
 
-     }
-     catch(err){
-       console.log(err)
-     }
-     dispatch({type:"SET_LOADING",payload:false})
+      }
+      catch (err) {
+        console.log(err)
+      }
+      dispatch({ type: "SET_LOADING", payload: false })
 
     }
 
-    if(isCurrent&&state.searchQuery){
+    if (isCurrent && state.searchQuery) {
       setSearchData(state.searchQuery)
     }
 
 
-    return ()=>{
-      isCurrent=false
-      dispatch({type:'SET_SEARCH_DATA',payload:[]})
+    return () => {
+      isCurrent = false
+      dispatch({ type: 'SET_SEARCH_DATA', payload: [] })
     }
 
-    
-  }, [state.searchQuery]);
- 
 
- 
+  }, [state.searchQuery]);
+
+
+
 
   const fetchMoreData = async () => {
     try {
       // Fetch additional items with a new offset
-    
-      const additionalItems = await fetchData(state.offSet+10,10);
+
+      const additionalItems = await fetchData(state.offSet + 10, 10);
 
       // Append the new items to the existing items in the state
       dispatch({ type: 'APPEND_ITEM', payload: additionalItems.items });
       // Update the offset
       dispatch({ type: 'SET_OFFSETS', payload: state.offSet + 10 });
-      dispatch({type:"SET_HASHMORE",payload:additionalItems.hasmore})
+      dispatch({ type: "SET_HASHMORE", payload: additionalItems.hasmore })
     } catch (error) {
       console.error('Failed to fetch items:', error);
     }
