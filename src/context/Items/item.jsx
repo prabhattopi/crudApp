@@ -18,7 +18,6 @@ const initialState = {
   img: "https://firebasestorage.googleapis.com/v0/b/image-gallery-8cf2b.appspot.com/o/images%2F1689583584637.webp?alt=media&token=5320ad10-a9d0-491b-8f9f-130cffdaa3b2",
   comments: [],
   scheduleTime: '',
-  likeDislikeStatus: false,
   loading: false,
   singleData: {},
   searchQuery: "",
@@ -54,8 +53,6 @@ const reducer = (state, action) => {
       return { ...state, social_links: [...state.social_links, action.payload] };
     case 'SET_SCHEDULE_TIME':
       return { ...state, scheduleTime: action.payload };
-    case 'SET_LIKE_DISLIKE':
-      return { ...state, likeDislikeStatus: !state.likeDislikeStatus };
     case 'SET_SINGLE':
       return { ...state, singleData: action.payload };
     case 'SET_OFFSETS':
@@ -162,10 +159,6 @@ const ItemProvider = ({ children }) => {
 
     }
   };
-  // const singleDataFunction=(id)=>{
-
-
-  // }
 
   const throttledHandleLikeDislike = throttle(handleLikeDislike, 1000);
   useEffect(() => {
@@ -173,6 +166,8 @@ const ItemProvider = ({ children }) => {
       .then((data) => dispatch({ type: "SET_ITEM", payload: data.items }))
       .catch((error) => console.error("Failed to fetch items:", error));
   }, [token]);
+
+
 
   useEffect(() => {
     let isCurrent = true
