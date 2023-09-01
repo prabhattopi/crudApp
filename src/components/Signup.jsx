@@ -43,11 +43,12 @@ const Signup = () => {
   };
 
   return (
-    <div className="fixed inset-0 flex flex-col items-center justify-center bg-gray-100">
-        <img src={Logo} alt="Logo"/>
+    <div className="fixed inset-0 flex flex-col items-center  bg-gray-100 px-4 py-4">
+       <img src={Logo} alt="Logo" width="150px" height="150px" className="rounded-full mb-4"/>
       <div className="bg-white shadow-md rounded-md p-8 max-w-md w-full">
-        <h2 className="text-2xl font-bold mb-6">Signup</h2>
+        <h2 className="text-2xl font-bold mb-6 uppercase">Signup</h2>
         <form onSubmit={handleSubmit}>
+        
           <div className="mb-4">
             <label htmlFor="email" className="block font-medium mb-2">
               Email
@@ -55,7 +56,7 @@ const Signup = () => {
             <input
               type="email"
               id="email"
-              className="w-full border-gray-300 rounded-md py-2 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full border-2 border-gray-500 rounded-md py-2 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
               value={email}
               onChange={handleEmailChange}
               required
@@ -68,67 +69,12 @@ const Signup = () => {
             <input
               type="password"
               id="password"
-              className="w-full border-gray-300 rounded-md py-2 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full border-2 border-gray-500 rounded-md py-2 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
               value={password}
               onChange={handlePasswordChange}
               required
             />
           </div>
-          {/* <div className="mb-4">
-            <label htmlFor="name" className="block font-medium mb-2">
-              Name
-            </label>
-            <input
-              type="text"
-              id="name"
-              className="w-full border-gray-300 rounded-md py-2 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              value={name}
-              onChange={handleNameChange}
-              required
-            />
-          </div>
-          <div className="mb-4">
-            <label htmlFor="address" className="block font-medium mb-2">
-              Address
-            </label>
-            <input
-              type="text"
-              id="address"
-              className="w-full border-gray-300 rounded-md py-2 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              value={address}
-              onChange={handleAddressChange}
-              required
-            />
-          </div>
-          <div className="mb-4">
-            <label htmlFor="occupation" className="block font-medium mb-2">
-              Phone NO.
-            </label>
-            <input
-              type="number"
-              id="phone"
-              className="w-full border-gray-300 rounded-md py-2 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              value={occupation}
-              onChange={handleOccupationChange}
-              required
-            />
-          </div>
-          <div className="mb-4">
-            <label htmlFor="select" className="block font-medium mb-2">
-              Occupation
-            </label>
-            <select
-              id="select"
-              className="w-full border-gray-300 rounded-md py-2 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              value={selectedOption}
-              onChange={handleOptionChange}
-            >
-              <option value="">Select</option>
-              <option value="option1">Option 1</option>
-              <option value="option2">Option 2</option>
-              <option value="option3">Option 3</option>
-            </select>
-          </div> */}
           <p className="text-sm text-gray-500 mb-4 animated-text">
             Already have an account?{" "}
             <Link to="/login" className="text-blue-500">

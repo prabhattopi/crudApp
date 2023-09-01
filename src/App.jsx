@@ -12,6 +12,7 @@ import Members from "./pages/Members"
 import useAuth from "./hooks/useAuth"
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
+import Forget from "./pages/Forget"
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
 function App() {
   const {user}=useAuth()
@@ -78,6 +79,7 @@ function App() {
             </PublicRoutes>
           }
         />
+        <Route path="/forget" element={<PublicRoutes><Forget/></PublicRoutes>}/>
       </Routes>
     </>
   )
