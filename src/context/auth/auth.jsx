@@ -104,7 +104,7 @@ const AuthProvider = ({ children }) => {
 
 
   const forgetPassword = async (data) => {
-    let response = await api.post("/auth/forgetemail", data)
+    let response = await api.post("/users/forgetemail", data)
     try {
       toast.success(response.data.message || 'email sent successfully', {
         position: toast.POSITION.TOP_RIGHT, // Change the position of the toast
@@ -123,7 +123,7 @@ const AuthProvider = ({ children }) => {
 
   }
   const resetPassword = async (data) => {
-    let response = await api.post("/auth/resetpassword", data)
+    let response = await api.post("/users/resetpassword", data)
     try {
       toast.success(response.data.message || 'password reset successfully', {
         position: toast.POSITION.TOP_RIGHT, // Change the position of the toast
