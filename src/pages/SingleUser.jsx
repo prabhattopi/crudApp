@@ -8,6 +8,7 @@ import "./singlepage.css"
 import api from '../api'
 import useAuth from '../hooks/useAuth'
 import { toast } from 'react-toastify'
+import ImageComponent from '../components/ImageComponent';
 const SingleUser = () => {
   const [comment,setComment]=useState("")
   const [commentData,setCommentData]=useState([])
@@ -86,7 +87,7 @@ toast.error(error.response.data.message||'Worng credential', {
         {/* img */}
         <div className='flex flex-col flex-wrap items-center'>
         <div className="sm:mr-6 mb-4 sm:mb-0">
-        <img src={img} alt={user} style={{height:"200px",width:"200px",objectFit:"cover"}} className='rounded-full'/>
+         <ImageComponent img={img} user={user} height="200px" width="200px"/>
         </div>
 
          
